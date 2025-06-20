@@ -1,39 +1,107 @@
 // File: client/src/pages/Signup.js
-import { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Signup() {
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'donor' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 'donor',
+  });
+
   const navigate = useNavigate();
 
-  const handleSubmit = async e => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
     try {
-      await axios.post('http://localhost:5000/api/users/signup', form);
-      navigate('/login');
+      const response = await fetch('http://localhost:5000/api/users/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.verificationSent) {
+        toast.success(data.message);
+        setTimeout(() => navigate('/login'), 4000);
+      } else {
+        toast.error(data.message || 'Signup failed');
+      }
     } catch (err) {
-      alert(err.response?.data?.message || 'Signup failed');
+      console.error(err);
+      toast.error('Something went wrong');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <div className="max-w-md mx-auto mt-16 p-8 bg-white shadow-md rounded">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-blue-800">Sign Up</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input className="w-full p-2 border rounded" type="text" placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
-          <input className="w-full p-2 border rounded" type="email" placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
-          <input className="w-full p-2 border rounded" type="password" placeholder="Password" onChange={e => setForm({ ...form, password: e.target.value })} />
-          <select className="w-full p-2 border rounded" onChange={e => setForm({ ...form, role: e.target.value })}>
-            <option value="donor">Donor</option>\n            <option value="instructor">Instructor</option>
-            <option value="admin">Admin</option>
-          </select>
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded" type="submit">Sign Up</button>
-        </form>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <ToastContainer />
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
+          onChange={handleChange}
+          className="mb-3 w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          className="mb-3 w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          className="mb-3 w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          className="mb-3 w-full p-2 border rounded"
+          required
+        />
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className="mb-4 w-full p-2 border rounded"
+        >
+          <option value="donor">Donor</option>
+          <option value="admin">Admin</option>
+          <option value="instructor">Instructor</option>
+        </select>
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+          Sign Up
+        </button>
+      </form>
     </div>
   );
 }

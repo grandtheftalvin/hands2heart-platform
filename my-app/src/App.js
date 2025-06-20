@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import DashboardDonor from './pages/DashboardDonor';
 import DashboardInstructor from './pages/DashboardInstructor';
 import DashboardAdmin from './pages/DashboardAdmin';
-
+import VerifyEmail from './pages/VerifyEmail';
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +17,8 @@ function App() {
         <Route path="/dashboard/donor" element={<DashboardDonor />} />
         <Route path="/dashboard/instructor" element={<DashboardInstructor />} />
         <Route path="/dashboard/admin" element={<DashboardAdmin />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>
   );
