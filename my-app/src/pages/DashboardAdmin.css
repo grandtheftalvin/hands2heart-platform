@@ -1,0 +1,99 @@
+/* Page wrapper */
+.admin-dashboard {
+  min-height: 100vh;
+  padding: 0;
+  background-color: #f97316;
+}
+
+/* Header */
+.admin-dashboard h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Card Grid */
+.artefact-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Individual card */
+.artefact-card {
+  background-color: white;
+  color: #333;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.artefact-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.artefact-card .card-content {
+  padding: 1rem;
+}
+
+.artefact-card h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.artefact-card p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.artefact-card .price {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+.artefact-card .button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.artefact-card button {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.artefact-card .approve-btn {
+  background-color: #16a34a; /* green-600 */
+}
+
+.artefact-card .approve-btn:hover {
+  background-color: #15803d; /* green-700 */
+}
+
+.artefact-card .reject-btn {
+  background-color: #dc2626; /* red-600 */
+}
+
+.artefact-card .reject-btn:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+/* Empty state */
+.no-artefacts {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #fff7ed;
+}

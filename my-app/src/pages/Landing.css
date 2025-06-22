@@ -1,0 +1,52 @@
+/* Landing.css */
+
+.landing-container {
+  background-color: #f97316; /* Tailwind's orange-500 */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  font-family: sans-serif;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.main-heading {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.main-paragraph {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  max-width: 40rem;
+  margin: 0 auto 2rem auto;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  background-color: white;
+  color: #f97316;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #f3f4f6; /* light gray */
+}

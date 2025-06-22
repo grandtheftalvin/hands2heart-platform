@@ -1,0 +1,41 @@
+/* Navbar.css */
+.navbar {
+  background-color: white;
+  color: #f97316; /* Tailwind's orange-500 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: #f97316;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-link {
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #f97316;
+  transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: #ea580c; /* darker orange */
+}

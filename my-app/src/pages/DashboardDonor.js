@@ -1,6 +1,7 @@
 // File: client/src/pages/DashboardDonor.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './DashboardDonor.css';
 
 function DashboardDonor() {
   const [artefacts, setArtefacts] = useState([]);
@@ -45,43 +46,33 @@ function DashboardDonor() {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Donor Dashboard</h1>
-        <button
-          onClick={() => navigate('/donor/artefacts')}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          View Artefacts
-        </button>
+    <div className="dashboard">
+      <div className="dashboard-header">
+        <h1>Donor Dashboard</h1>
+        <button onClick={() => navigate('/donor/artefacts')}>View Artefacts</button>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
-        {artefacts.map((artefact) => (
-          <div key={artefact.id} className="border p-4 rounded shadow">
-            <img
-              src={`http://localhost:5000/uploads/${artefact.image_url}`}
-              alt={artefact.title}
-              className="w-full h-48 object-cover rounded mb-2"
-            />
-            <h2 className="text-lg font-bold">{artefact.title}</h2>
-            <p className="text-sm text-gray-600 mb-2">{artefact.description}</p>
-            <p className="text-sm text-gray-800 font-semibold mb-2">Price: ${artefact.price}</p>
-            <input
-              type="number"
-              placeholder="Enter amount"
-              value={bid[artefact.id] || ''}
-              onChange={(e) => handleBidChange(e, artefact.id)}
-              className="w-full p-1 border rounded mb-2"
-            />
-            <button
-              onClick={() => handleBidSubmit(artefact.id)}
-              className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
-            >
-              Donate / Bid
-            </button>
+
+      {artefacts.length === 0 ? (
+        <p>No artefacts available at the moment.</p>
+      ) : (
+        artefacts.map((artefact) => (
+          <div key={artefact._id} className="artefact-card">
+            <img src={`http://localhost:5000/uploads/${artefact.image_url}`} alt={artefact.title} className="artefact-image" />
+            <div className="artefact-price">Price: ${artefact.price}</div>
+            <div className="artefact-title">{artefact.title}</div>
+            <p>{artefact.description}</p>
+            <div className="bid-section">
+              <input
+                type="number"
+                placeholder="Enter your bid"
+                value={bid[artefact._id] || ''}
+                onChange={(e) => handleBidChange(e, artefact._id)}
+              />
+              <button onClick={() => handleBidSubmit(artefact._id)}>Submit Bid</button>
+            </div>
           </div>
-        ))}
-      </div>
+        ))
+      )}
     </div>
   );
 }

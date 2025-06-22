@@ -3,10 +3,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './DashboardInstructor.css'; // Import the vanilla CSS
 
 function DashboardInstructor() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ title: '', description: '', image: null, price: '' });
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    image: null,
+    price: ''
+  });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -41,25 +47,49 @@ function DashboardInstructor() {
   };
 
   return (
-    <div className="p-6">
+    <div className="instructor-dashboard">
       <ToastContainer />
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Instructor Dashboard</h1>
-        <button
-          onClick={() => navigate('/instructor/artefacts')}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
+      
+      <div className="dashboard-header">
+        <h1>Instructor Dashboard</h1>
+        <button onClick={() => navigate('/instructor/artefacts')}>
           View My Artefacts
         </button>
       </div>
 
-      <h2 className="text-xl font-semibold mb-4">Upload Artefact</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} className="block w-full p-2 border rounded" required />
-        <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} className="block w-full p-2 border rounded" required />
-        <input type="number" name="price" placeholder="Suggested Price" value={formData.price} onChange={handleChange} className="block w-full p-2 border rounded" required />
-        <input type="file" name="image" onChange={handleChange} className="block w-full p-2 border rounded" required />
-        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Upload</button>
+      <h2 className="section-title">Upload Artefact</h2>
+
+      <form onSubmit={handleSubmit} className="upload-form">
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+        <textarea
+          name="description"
+          placeholder="Description"
+          value={formData.description}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Suggested Price"
+          value={formData.price}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="file"
+          name="image"
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Upload</button>
       </form>
     </div>
   );

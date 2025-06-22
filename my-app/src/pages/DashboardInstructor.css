@@ -1,0 +1,89 @@
+/* Page container */
+.instructor-dashboard {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f97316; /* orange-500 */
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+}
+
+.dashboard-header button {
+  background-color: white;
+  color: #f97316;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-header button:hover {
+  background-color: #fcd34d; /* yellow-300 */
+}
+
+/* Section title */
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: white;
+}
+
+/* Form container */
+.upload-form {
+  background-color: white;
+  color: #333;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Form inputs */
+.upload-form input,
+.upload-form textarea,
+.upload-form select {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+/* Upload button */
+.upload-form button {
+  background-color: #ffffff;
+  color: #f97316;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 9999px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.upload-form button:hover {
+  background-color: #fcd34d; /* lighter yellow on hover */
+}

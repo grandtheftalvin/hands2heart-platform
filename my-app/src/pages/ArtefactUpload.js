@@ -1,5 +1,7 @@
+// File: client/src/pages/ArtefactUpload.js
 import { useState } from 'react';
 import axios from 'axios';
+import './ArtefactUpload.css';
 
 function ArtefactUpload() {
   const [form, setForm] = useState({ title: '', description: '' });
@@ -29,13 +31,28 @@ function ArtefactUpload() {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Upload Artefact</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="text" placeholder="Title" className="w-full p-2 border" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} required />
-        <textarea placeholder="Description" className="w-full p-2 border" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} required />
-        <input type="file" className="w-full" onChange={e => setImage(e.target.files[0])} required />
-        <button type="submit" className="w-full bg-blue-600 text-white py-2">Upload</button>
+    <div className="artefact-upload">
+      <h2>Upload Artefact</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Title"
+          value={form.title}
+          onChange={e => setForm({ ...form, title: e.target.value })}
+          required
+        />
+        <textarea
+          placeholder="Description"
+          value={form.description}
+          onChange={e => setForm({ ...form, description: e.target.value })}
+          required
+        />
+        <input
+          type="file"
+          onChange={e => setImage(e.target.files[0])}
+          required
+        />
+        <button type="submit">Upload</button>
       </form>
     </div>
   );

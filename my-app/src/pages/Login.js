@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Login.css'; // Import your CSS
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -39,17 +40,16 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="login-page">
       <ToastContainer />
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <form onSubmit={handleSubmit} className="login-form">
+        <h2>Login</h2>
         <input
           type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          className="mb-3 w-full p-2 border rounded"
           required
         />
         <input
@@ -58,12 +58,9 @@ function Login() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          className="mb-4 w-full p-2 border rounded"
           required
         />
-        <button type="submit" className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-          Login
-        </button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );

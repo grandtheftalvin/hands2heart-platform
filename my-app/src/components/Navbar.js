@@ -1,14 +1,14 @@
-// File: client/src/components/Navbar.js
 import { Link } from 'react-router-dom';
+import './Navbar.css';
 
 function Navbar() {
   return (
-    <nav className="bg-blue-800 text-white p-4 shadow-md">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold">Hands2Heart</Link>
-        <div className="space-x-4">
-          <Link to="/signup" className="hover:underline">Sign Up</Link>
-          <Link to="/login" className="hover:underline">Login</Link>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="navbar-logo">Hands2Heart</Link>
+        <div className="navbar-links">
+          <Link to="/signup" className="navbar-link">Sign Up</Link>
+          <Link to="/login" className="navbar-link">Login</Link>
         </div>
       </div>
     </nav>

@@ -1,6 +1,8 @@
+// File: client/src/pages/DashboardAdmin.js
 import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './DashboardAdmin.css';
 
 function DashboardAdmin() {
   const [pendingArtefacts, setPendingArtefacts] = useState([]);
@@ -40,22 +42,25 @@ function DashboardAdmin() {
   };
 
   return (
-    <div className="p-6">
+    <div className="admin-dashboard">
       <ToastContainer />
-      <h1 className="text-2xl font-bold mb-4">Admin Artefact Moderation</h1>
+      <h1>Admin Artefact Moderation</h1>
+
       {pendingArtefacts.length === 0 ? (
-        <p className="text-gray-600">No pending artefacts at the moment.</p>
+        <p className="no-artefacts">No pending artefacts at the moment.</p>
       ) : (
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="artefact-grid">
           {pendingArtefacts.map((a) => (
-            <div key={a.id} className="border rounded shadow p-4">
-              <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} className="w-full h-48 object-cover mb-2 rounded" />
-              <h2 className="text-lg font-bold">{a.title}</h2>
-              <p className="text-sm text-gray-700">{a.description}</p>
-              <p className="text-sm font-semibold">Price: ${a.price}</p>
-              <div className="flex gap-2 mt-2">
-                <button onClick={() => handleAction(a.id, 'approved')} className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Approve</button>
-                <button onClick={() => handleAction(a.id, 'rejected')} className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Reject</button>
+            <div key={a.id} className="artefact-card">
+              <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} />
+              <div className="card-content">
+                <h2>{a.title}</h2>
+                <p>{a.description}</p>
+                <p className="price">Price: ${a.price}</p>
+                <div className="button-group">
+                  <button onClick={() => handleAction(a.id, 'approved')} className="approve-btn">Approve</button>
+                  <button onClick={() => handleAction(a.id, 'rejected')} className="reject-btn">Reject</button>
+                </div>
               </div>
             </div>
           ))}

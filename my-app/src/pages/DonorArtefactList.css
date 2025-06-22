@@ -1,0 +1,70 @@
+/* DonorArtefactList.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f97316; /* orange-500 */
+  color: white;
+}
+
+/* Page wrapper */
+.artefact-page {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Title */
+.artefact-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Grid layout */
+.artefact-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Artefact card */
+.artefact-card {
+  background-color: white;
+  color: #c2410c; /* orange-900 */
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.artefact-card:hover {
+  transform: translateY(-4px);
+}
+
+.artefact-image {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.artefact-content {
+  padding: 1rem;
+}
+
+.artefact-content h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.artefact-content p {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.artefact-content .price {
+  font-weight: 600;
+  color: #ea580c; /* deeper orange */
+}

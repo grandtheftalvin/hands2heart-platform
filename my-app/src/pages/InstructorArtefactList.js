@@ -1,4 +1,6 @@
+// File: client/src/pages/InstructorArtefactList.js
 import React, { useEffect, useState } from 'react';
+import './InstructorArtefactList.css';
 
 function InstructorArtefactList() {
   const [artefacts, setArtefacts] = useState([]);
@@ -17,17 +19,21 @@ function InstructorArtefactList() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">My Uploaded Artefacts</h1>
-      <div className="grid gap-4 md:grid-cols-3">
+    <div className="artefact-list-container">
+      <h1 className="artefact-list-title">My Uploaded Artefacts</h1>
+      <div className="artefact-grid">
         {artefacts.map((a) => (
-          <div key={a.id} className="border rounded shadow p-4">
-            <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} className="w-full h-48 object-cover mb-2 rounded" />
-            <h2 className="text-lg font-bold">{a.title}</h2>
-            <p className="text-sm text-gray-700">{a.description}</p>
-            <p className="text-sm font-semibold mt-2">Price: ${a.price}</p>
-            <p className="text-sm">Status: {a.status}</p>
-            <p className="text-sm">Stock: {a.stock_status}</p>
+          <div key={a.id} className="artefact-card">
+            <img
+              src={`http://localhost:5000/uploads/${a.image_url}`}
+              alt={a.title}
+              className="artefact-image"
+            />
+            <h2>{a.title}</h2>
+            <p>{a.description}</p>
+            <p className="price">Price: ${a.price}</p>
+            <p>Status: {a.status}</p>
+            <p>Stock: {a.stock_status}</p>
           </div>
         ))}
       </div>

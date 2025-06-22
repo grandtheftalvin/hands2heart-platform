@@ -1,13 +1,14 @@
-// File: client/src/pages/DonorArtefactlist.js
+// File: client/src/pages/DonorArtefactList.js
 import React, { useEffect, useState } from 'react';
+import './DonorArtefactList.css';
 
-function DonorArtefactlist() {
+function DonorArtefactList() {
   const [artefacts, setArtefacts] = useState([]);
 
   useEffect(() => {
     const fetchArtefacts = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/artefacts/?status=approved&stock=in_stock');
+        const res = await fetch('http://localhost:5000/api/artefacts?status=approved&stock=in_stock');
         const data = await res.json();
         setArtefacts(data);
       } catch (error) {
@@ -18,18 +19,21 @@ function DonorArtefactlist() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">All Available Artefacts</h1>
-      <div className="grid gap-4 md:grid-cols-3">
+    <div className="artefact-page">
+      <h1 className="artefact-title">All Available Artefacts</h1>
+      <div className="artefact-grid">
         {artefacts.map((a) => (
-          <div key={a.id} className="border rounded shadow p-4">
-             <img src={`http://localhost:5000/uploads/${a.image}`} alt={a.title} className="w-full h-40 object-cover mb-2 rounded" />
-            <h3 className="text-lg font-bold">{a.title}</h3>
-            <p className="text-sm text-gray-600 mb-1">{a.description}</p>
-            <p className="text-sm text-gray-800 font-semibold mb-1">Price: ${a.price}</p>
-             <p className={`text-sm font-medium ${a.stock_status === 'sold' ? 'text-red-600' : 'text-green-700'}`}>
-              Stock Status: {a.stock_status === 'sold' ? 'Sold' : 'In Stock'}
-            </p>
+          <div key={a.id} className="artefact-card">
+            <img
+              src={`http://localhost:5000/uploads/${a.image_url}`}
+              alt={a.title}
+              className="artefact-image"
+            />
+            <div className="artefact-content">
+              <h2>{a.title}</h2>
+              <p>{a.description}</p>
+              <p className="price">Price: ${a.price}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -37,4 +41,4 @@ function DonorArtefactlist() {
   );
 }
 
-export default DonorArtefactlist;
+export default DonorArtefactList;
