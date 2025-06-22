@@ -7,6 +7,8 @@ import DashboardDonor from './pages/DashboardDonor';
 import DashboardInstructor from './pages/DashboardInstructor';
 import DashboardAdmin from './pages/DashboardAdmin';
 import VerifyEmail from './pages/VerifyEmail';
+import DonorArtefactlist from './pages/DonorArtefactlist'; 
+import InstructorArtefactList from './pages/InstructorArtefactList';
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ function App() {
         <Route path="/dashboard/instructor" element={<DashboardInstructor />} />
         <Route path="/dashboard/admin" element={<DashboardAdmin />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
+         <Route path="/donor/artefacts" element={<DonorArtefactlist />} />
+        <Route path="/instructor/artefacts" element={<InstructorArtefactList />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>
