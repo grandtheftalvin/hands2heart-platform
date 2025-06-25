@@ -31,7 +31,7 @@ function InstructorArtefactList() {
             />
             <h2>{a.title}</h2>
             <p>{a.description}</p>
-            <p className="price">Price: ${a.price}</p>
+            <p className="price">Price: Kshs{a.price}</p>
             <p>Status: {a.status}</p>
             <p>Stock: {a.stock_status}</p>
           </div>

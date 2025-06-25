@@ -58,7 +58,7 @@ function DashboardDonor() {
         artefacts.map((artefact) => (
           <div key={artefact._id} className="artefact-card">
             <img src={`http://localhost:5000/uploads/${artefact.image_url}`} alt={artefact.title} className="artefact-image" />
-            <div className="artefact-price">Price: ${artefact.price}</div>
+            <div className="artefact-price">Price: Kshs{artefact.price}</div>
             <div className="artefact-title">{artefact.title}</div>
             <p>{artefact.description}</p>
             <div className="bid-section">
