@@ -1,7 +1,7 @@
 /* Landing.css */
 
 .landing-container {
-  background-color: #f97316; /* Tailwind's orange-500 */
+  background-color: #f97316; 
   min-height: 100vh;
   display: flex;
   flex-direction: column;

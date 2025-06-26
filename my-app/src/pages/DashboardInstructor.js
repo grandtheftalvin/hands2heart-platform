@@ -14,6 +14,12 @@ function DashboardInstructor() {
     price: ''
   });
 
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData({ ...formData, [name]: files ? files[0] : value });
@@ -47,19 +53,29 @@ function DashboardInstructor() {
   };
 
   return (
-    <div className="instructor-dashboard">
+    <div className="instructor-dashboard p-6">
       <ToastContainer />
-      
-      <div className="dashboard-header">
-        <h1>Instructor Dashboard</h1>
-        <button onClick={() => navigate('/instructor/artefacts')}>
-          View My Artefacts
-        </button>
+      <div className="dashboard-header flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Instructor Dashboard</h1>
+        <div className="space-x-4">
+          <button
+            onClick={() => navigate('/instructor/artefacts')}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            View My Artefacts
+          </button>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
-      <h2 className="section-title">Upload Artefact</h2>
+      <h2 className="section-title text-xl font-semibold mb-2">Upload Artefact</h2>
 
-      <form onSubmit={handleSubmit} className="upload-form">
+      <form onSubmit={handleSubmit} className="upload-form space-y-4">
         <input
           type="text"
           name="title"
@@ -67,6 +83,7 @@ function DashboardInstructor() {
           value={formData.title}
           onChange={handleChange}
           required
+          className="block w-full p-2 border rounded"
         />
         <textarea
           name="description"
@@ -74,6 +91,7 @@ function DashboardInstructor() {
           value={formData.description}
           onChange={handleChange}
           required
+          className="block w-full p-2 border rounded"
         />
         <input
           type="number"
@@ -82,14 +100,21 @@ function DashboardInstructor() {
           value={formData.price}
           onChange={handleChange}
           required
+          className="block w-full p-2 border rounded"
         />
         <input
           type="file"
           name="image"
           onChange={handleChange}
           required
+          className="block w-full p-2 border rounded"
         />
-        <button type="submit">Upload</button>
+        <button
+          type="submit"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Upload
+        </button>
       </form>
     </div>
   );
