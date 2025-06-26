@@ -1,13 +1,31 @@
-/* Landing.css */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
 .landing-container {
-  background-color: #f97316; 
+  background-color: white; /* Tailwind's orange-500 */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: white;
   font-family: sans-serif;
+}
+
+.head-content {
+  background-image: url(paragraph.jpeg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /*background-attachment: fixed; */
+  height: 90vh;
+  padding: 2rem 1.5rem;
+  text-align: center;
+ 
 }
 
 .main-content {
@@ -24,10 +42,33 @@
 }
 
 .main-paragraph {
+  font-size: 1.5rem;
+  line-height: 1.75rem;
+  max-width: 60rem;
+  margin: 0 auto 2rem auto;
+  margin-top: 70px;
+}
+
+.giving-hand-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;     
+  background-color: #fff; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+
+.About-Us{
+  background-color: #f97316;
   font-size: 1.125rem;
   line-height: 1.75rem;
-  max-width: 40rem;
-  margin: 0 auto 2rem auto;
+  max-width: 80rem;
+  margin: 0 auto 20rem auto;
+  
+  
 }
 
 .button-group {
