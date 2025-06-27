@@ -87,3 +87,93 @@
 .upload-form button:hover {
   background-color: #fcd34d; /* lighter yellow on hover */
 }
+
+.instructor-dashboard-gradient {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+  padding: 2rem;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.bids-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.bid-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  transition: box-shadow 0.2s;
+}
+
+.bid-card.approved {
+  border-left: 6px solid #28a745;
+  background: linear-gradient(135deg, #e6f9f0 0%, #e9ecef 100%);
+}
+
+.bid-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.approved-badge {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+.approved-status {
+  color: #28a745;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.pending-status {
+  color: #ff9800;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.no-bids, .loading {
+  color: #666;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-content-grid {
+    grid-template-columns: 1fr;
+  }
+}

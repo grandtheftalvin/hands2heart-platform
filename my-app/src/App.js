@@ -11,6 +11,12 @@ import DonorArtefactlist from './pages/DonorArtefactlist';
 import InstructorArtefactList from './pages/InstructorArtefactList';
 import DonorBidForm from './pages/DonorBidForm';
 import DonorCart from './pages/DonorCart';
+import DonorNotifications from './pages/DonorNotifications';
+import DonorProfile from './pages/DonorProfile';
+import InstructorProfile from './pages/InstructorProfile';
+import AdminProfile from './pages/AdminProfile';
+import PaymentModal from './components/PaymentModal';
+
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +32,10 @@ function App() {
         <Route path="/instructor/artefacts" element={<InstructorArtefactList />} />
         <Route path="/donor/bid/:id" element={<DonorBidForm />} />
         <Route path="/donor/cart" element={<DonorCart />} />
+        <Route path="/donor/notifications" element={<DonorNotifications />} />
+        <Route path="/donor/profile" element={<DonorProfile />} />
+        <Route path="/instructor/profile" element={<InstructorProfile />} />
+        <Route path="/admin/profile" element={<AdminProfile />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

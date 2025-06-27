@@ -84,4 +84,140 @@ router.post('/', async (req, res) => {
   }
 });
 
+// POST /api/payments/initiate
+router.post('/initiate', async (req, res) => {
+  const { bid_id, phone_number, amount, artefact_title } = req.body;
+
+  if (!bid_id || !phone_number || !amount) {
+    return res.status(400).json({ message: 'Missing payment data' });
+  }
+
+  try {
+    // In a real implementation, this would integrate with M-Pesa API
+    // For now, we'll simulate the payment process
+    
+    // Update the bid to mark it as paid
+    const { error } = await supabase
+      .from('bids')
+      .update({ 
+        paid: true,
+        payment_date: new Date().toISOString(),
+        payment_method: 'mpesa',
+        phone_number: phone_number
+      })
+      .eq('id', bid_id);
+
+    if (error) {
+      console.error('Payment update error:', error);
+      return res.status(500).json({ message: 'Failed to process payment' });
+    }
+
+    // Create a payment record
+    const { error: paymentError } = await supabase
+      .from('payments')
+      .insert([{
+        bid_id: bid_id,
+        amount: amount,
+        payment_method: 'mpesa',
+        phone_number: phone_number,
+        status: 'completed',
+        transaction_id: `MPESA_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      }]);
+
+    if (paymentError) {
+      console.error('Payment record error:', paymentError);
+      // Payment was processed but record creation failed
+      return res.status(200).json({ 
+        message: 'Payment processed successfully',
+        transaction_id: `MPESA_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      });
+    }
+
+    res.status(200).json({ 
+      message: 'Payment processed successfully',
+      transaction_id: `MPESA_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    });
+
+  } catch (error) {
+    console.error('Payment processing error:', error);
+    res.status(500).json({ message: 'Payment processing failed' });
+  }
+});
+
+// GET /api/payments/history/:user_id
+router.get('/history/:user_id', async (req, res) => {
+  const { user_id } = req.params;
+
+  try {
+    const { data, error } = await supabase
+      .from('payments')
+      .select(`
+        id,
+        amount,
+        payment_method,
+        status,
+        created_at,
+        transaction_id,
+        bids(
+          artefacts(title)
+        )
+      `)
+      .eq('bids.donor_id', user_id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Payment history error:', error);
+      return res.status(500).json({ message: 'Failed to fetch payment history' });
+    }
+
+    const formatted = data.map(payment => ({
+      id: payment.id,
+      amount: payment.amount,
+      payment_method: payment.payment_method,
+      status: payment.status,
+      created_at: payment.created_at,
+      transaction_id: payment.transaction_id,
+      artefact_title: payment.bids?.artefacts?.title || 'Unknown'
+    }));
+
+    res.json(formatted);
+
+  } catch (error) {
+    console.error('Payment history error:', error);
+    res.status(500).json({ message: 'Failed to fetch payment history' });
+  }
+});
+
+// GET /api/payments/stats
+router.get('/stats', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('payments')
+      .select('amount, status');
+
+    if (error) {
+      console.error('Payment stats error:', error);
+      return res.status(500).json({ message: 'Failed to fetch payment stats' });
+    }
+
+    const totalRevenue = data
+      .filter(payment => payment.status === 'completed')
+      .reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
+
+    const totalTransactions = data.length;
+    const completedTransactions = data.filter(payment => payment.status === 'completed').length;
+
+    res.json({
+      totalRevenue,
+      totalTransactions,
+      completedTransactions,
+      successRate: totalTransactions > 0 ? (completedTransactions / totalTransactions * 100).toFixed(2) : 0
+    });
+
+  } catch (error) {
+    console.error('Payment stats error:', error);
+    res.status(500).json({ message: 'Failed to fetch payment stats' });
+  }
+});
+
 module.exports = router;

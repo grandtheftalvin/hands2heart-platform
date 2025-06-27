@@ -57,6 +57,28 @@ router.get('/', async (req, res) => {
   res.json(data);
 });
 
+// Get single artefact by ID
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const { data, error } = await supabase
+      .from('artefacts')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      return res.status(404).json({ message: 'Artefact not found' });
+    }
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // Mark artefact as sold
 router.patch('/:id/status', async (req, res) => {
   const { id } = req.params;
@@ -73,6 +95,5 @@ router.patch('/:id/status', async (req, res) => {
 
   res.status(200).json({ message: `Artefact ${status}` });
 });
-
 
 module.exports = router;

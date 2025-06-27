@@ -1,0 +1,179 @@
+import React, { useState } from 'react';
+import './PaymentModal.css';
+
+function PaymentModal({ bid, onClose, onSuccess }) {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [step, setStep] = useState(1); // 1: phone input, 2: processing, 3: success
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!phoneNumber || phoneNumber.length < 10) {
+      setError('Please enter a valid phone number');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/payments/initiate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bid_id: bid.id,
+          phone_number: phoneNumber,
+          amount: bid.amount,
+          artefact_title: bid.artefact_title
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStep(2);
+        // Simulate payment processing
+        setTimeout(() => {
+          setStep(3);
+          setTimeout(() => {
+            onSuccess();
+          }, 2000);
+        }, 3000);
+      } else {
+        setError(data.message || 'Payment initiation failed');
+        setLoading(false);
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const formatPhoneNumber = (value) => {
+    // Remove all non-digits
+    const cleaned = value.replace(/\D/g, '');
+    
+    // Format as Kenyan phone number
+    if (cleaned.length <= 3) {
+      return cleaned;
+    } else if (cleaned.length <= 6) {
+      return `${cleaned.slice(0, 3)} ${cleaned.slice(3)}`;
+    } else {
+      return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6, 9)}`;
+    }
+  };
+
+  const handlePhoneChange = (e) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setPhoneNumber(formatted);
+  };
+
+  return (
+    <div className="payment-modal-overlay" onClick={onClose}>
+      <div className="payment-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="payment-modal-header">
+          <h2>Complete Payment</h2>
+          <button className="close-button" onClick={onClose}>×</button>
+        </div>
+
+        <div className="payment-modal-body">
+          {step === 1 && (
+            <>
+              <div className="payment-summary">
+                <h3>Payment Summary</h3>
+                <div className="summary-item">
+                  <span>Artefact:</span>
+                  <span>{bid.artefact_title}</span>
+                </div>
+                <div className="summary-item">
+                  <span>Amount:</span>
+                  <span className="amount">Kshs {bid.amount}</span>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="payment-form">
+                <div className="form-group">
+                  <label htmlFor="phone">M-Pesa Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    value={phoneNumber}
+                    onChange={handlePhoneChange}
+                    placeholder="254 700 000 000"
+                    maxLength="12"
+                    disabled={loading}
+                    className={error ? 'error' : ''}
+                  />
+                  {error && <span className="error-message">{error}</span>}
+                </div>
+
+                <div className="payment-instructions">
+                  <h4>Instructions:</h4>
+                  <ol>
+                    <li>Enter your M-Pesa registered phone number</li>
+                    <li>Click "Pay Now" to initiate payment</li>
+                    <li>You'll receive an M-Pesa prompt on your phone</li>
+                    <li>Enter your M-Pesa PIN to complete the transaction</li>
+                  </ol>
+                </div>
+
+                <div className="payment-actions">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="btn btn-secondary"
+                    disabled={loading}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-success"
+                    disabled={loading}
+                  >
+                    {loading ? 'Processing...' : 'Pay Now'}
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+
+          {step === 2 && (
+            <div className="processing-step">
+              <div className="processing-animation">
+                <div className="spinner"></div>
+              </div>
+              <h3>Processing Payment...</h3>
+              <p>Please check your phone for the M-Pesa prompt and enter your PIN.</p>
+              <div className="processing-tips">
+                <p>💡 Make sure your phone has network coverage</p>
+                <p>💡 Keep this window open until payment is complete</p>
+              </div>
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="success-step">
+              <div className="success-icon">✓</div>
+              <h3>Payment Successful!</h3>
+              <p>Your payment has been processed successfully.</p>
+              <p>You will receive a confirmation SMS shortly.</p>
+              <button
+                onClick={onSuccess}
+                className="btn btn-primary"
+              >
+                Continue
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default PaymentModal; 

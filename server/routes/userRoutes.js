@@ -164,4 +164,94 @@ router.post('/login', async (req, res) => {
   res.json({ token, user });
 });
 
+// GET /api/users/:id - Get user profile
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('id, name, email, phone, address, specialization, role, created_at, is_verified')
+      .eq('id', id)
+      .single();
+
+    if (error || !user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Failed to fetch user profile' });
+  }
+});
+
+// PUT /api/users/:id - Update user profile
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, email, phone, address, specialization } = req.body;
+
+  try {
+    // Check if email is already taken by another user
+    if (email) {
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', email)
+        .neq('id', id)
+        .single();
+
+      if (existingUser) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+    }
+
+    const updateData = {
+      name: name || null,
+      email: email || null,
+      phone: phone || null,
+      address: address || null,
+      specialization: specialization || null,
+      updated_at: new Date().toISOString()
+    };
+
+    const { data, error } = await supabase
+      .from('users')
+      .update(updateData)
+      .eq('id', id)
+      .select('id, name, email, phone, address, specialization, role, created_at, is_verified')
+      .single();
+
+    if (error) {
+      console.error('Error updating user:', error);
+      return res.status(500).json({ message: 'Failed to update profile' });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Failed to update profile' });
+  }
+});
+
+// GET /api/users - Get all users (admin only)
+router.get('/', async (req, res) => {
+  try {
+    const { data: users, error } = await supabase
+      .from('users')
+      .select('id, name, email, role, created_at, is_verified')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching users:', error);
+      return res.status(500).json({ message: 'Failed to fetch users' });
+    }
+
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Failed to fetch users' });
+  }
+});
+
 module.exports = router;

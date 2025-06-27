@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Login.css'; // Import your CSS
 import Loginimage from '../pages/Login-image.jpeg';
 import givingHand from '../pages/orange-hand.jpg'; 
-
+import { login } from '../utils/auth';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -29,6 +29,9 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
+        // Use the auth utility to store login data
+        login(data.token, data.user);
+        
         toast.success('Login successful!');
         const { role } = data.user;
         const dashboardPath = `/dashboard/${role}`;
@@ -46,7 +49,7 @@ function Login() {
     <div className="login-page">
       <ToastContainer />
        <div className="login-image">
-      <img src={Loginimage} alt="Log in image" className="log-in-image"/>
+      <img src={Loginimage} alt="Login" className="login-image"/>
       </div>
 
       <div className="login-form-container">

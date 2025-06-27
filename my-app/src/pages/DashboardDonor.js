@@ -1,28 +1,46 @@
 // File: client/src/pages/DashboardDonor.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUser, logout } from '../utils/auth';
 import './DashboardDonor.css';
 
 function DashboardDonor() {
   const [artefacts, setArtefacts] = useState([]);
+  const [notificationCount, setNotificationCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchArtefacts = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/artefacts?status=approved&stock=in_stock');
-        const data = await response.json();
-        setArtefacts(data);
-      } catch (error) {
-        console.error('Error fetching artefacts:', error);
-      }
-    };
     fetchArtefacts();
+    fetchNotificationCount();
   }, []);
+
+  const fetchArtefacts = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/artefacts?status=approved&stock=in_stock');
+      const data = await response.json();
+      setArtefacts(data);
+    } catch (error) {
+      console.error('Error fetching artefacts:', error);
+    }
+  };
+
+  const fetchNotificationCount = async () => {
+    try {
+      const userData = getUser();
+      if (!userData) return;
+
+      const response = await fetch(`http://localhost:5000/api/bids/approved/${userData.id}`);
+      const approvedBids = await response.json();
+      const unpaidBids = approvedBids.filter(bid => !bid.paid);
+      setNotificationCount(unpaidBids.length);
+    } catch (error) {
+      console.error('Error fetching notification count:', error);
+    }
+  };
 
   // Logout handler
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    logout();
     navigate('/login');
   };
 
@@ -42,6 +60,25 @@ function DashboardDonor() {
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             My Bids
+          </button>
+          <div className="relative inline-block">
+            <button
+              onClick={() => navigate('/donor/notifications')}
+              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 relative"
+            >
+              Notifications
+              {notificationCount > 0 && (
+                <span className="notification-badge">
+                  {notificationCount}
+                </span>
+              )}
+            </button>
+          </div>
+          <button
+            onClick={() => navigate('/donor/profile')}
+            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+          >
+            Profile
           </button>
           <button
             onClick={handleLogout}

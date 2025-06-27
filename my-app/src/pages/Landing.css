@@ -2,17 +2,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .landing-container {
-  background-color: white; /* Tailwind's orange-500 */
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: white;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .head-content {
@@ -20,12 +20,26 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
-  /*background-attachment: fixed; */
   height: 90vh;
   padding: 2rem 1.5rem;
   text-align: center;
- 
+  position: relative;
+}
+
+.head-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(249, 115, 22, 0.3);
+  z-index: 1;
+}
+
+.head-content > * {
+  position: relative;
+  z-index: 2;
 }
 
 .main-content {
@@ -35,10 +49,11 @@
 }
 
 .main-heading {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
   letter-spacing: 0.05em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .main-paragraph {
@@ -47,28 +62,36 @@
   max-width: 60rem;
   margin: 0 auto 2rem auto;
   margin-top: 70px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .giving-hand-logo {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 50%;     
   background-color: #fff; 
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   margin-top: 50px;
   margin-bottom: 50px;
+  transition: transform 0.3s ease;
 }
 
+.giving-hand-logo:hover {
+  transform: scale(1.1);
+}
 
 .About-Us{
-  background-color: #f97316;
-  font-size: 1.125rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.25rem;
   line-height: 1.75rem;
   max-width: 80rem;
   margin: 0 auto 20rem auto;
-  
-  
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .button-group {
@@ -78,16 +101,19 @@
 }
 
 .btn {
-  background-color: white;
+  background: rgba(255, 255, 255, 0.9);
   color: #f97316;
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .btn:hover {
-  background-color: #f3f4f6; /* light gray */
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }

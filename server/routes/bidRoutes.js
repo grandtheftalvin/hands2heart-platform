@@ -54,6 +54,44 @@ router.get('/mine', async (req, res) => {
   res.json(formatted);
 });
 
+// GET /api/bids/approved/:donor_id
+router.get('/approved/:donor_id', async (req, res) => {
+  const { donor_id } = req.params;
+
+  if (!donor_id) return res.status(400).json({ message: 'Missing donor_id' });
+
+  const { data, error } = await supabase
+    .from('bids')
+    .select(`
+      id,
+      amount,
+      status,
+      paid,
+      created_at,
+      payment_date,
+      payment_method,
+      phone_number,
+      artefact_id,
+      artefacts(title, image_url)
+    `)
+    .eq('donor_id', donor_id)
+    .eq('status', 'approved')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch approved bids' });
+  }
+
+  const formatted = data.map(b => ({
+    ...b,
+    artefact_title: b.artefacts?.title || 'Unknown',
+    artefact_image: b.artefacts?.image_url || null
+  }));
+
+  res.json(formatted);
+});
+
 // GET /api/bids/pending
 router.get('/pending', async (req, res) => {
   const { data, error } = await supabase
@@ -116,6 +154,56 @@ router.get('/stats', async (req, res) => {
     console.error('Stats error:', err);
     res.status(500).json({ message: 'Failed to fetch bid stats' });
   }
+});
+
+// GET /api/bids/instructor/:instructor_id
+router.get('/instructor/:instructor_id', async (req, res) => {
+  const { instructor_id } = req.params;
+
+  // Get all artefacts for this instructor
+  const { data: artefacts, error: artefactError } = await supabase
+    .from('artefacts')
+    .select('id, title')
+    .eq('instructor_id', instructor_id);
+
+  if (artefactError) {
+    return res.status(500).json({ message: 'Failed to fetch artefacts' });
+  }
+
+  const artefactIds = artefacts.map(a => a.id);
+  if (artefactIds.length === 0) {
+    return res.json([]); // No artefacts, so no bids
+  }
+
+  // Get all bids for these artefacts
+  const { data: bids, error: bidError } = await supabase
+    .from('bids')
+    .select(`
+      id,
+      artefact_id,
+      donor_id,
+      amount,
+      status,
+      paid,
+      created_at,
+      users(name, email),
+      artefacts(title)
+    `)
+    .in('artefact_id', artefactIds);
+
+  if (bidError) {
+    return res.status(500).json({ message: 'Failed to fetch bids' });
+  }
+
+  // Attach artefact title and donor info
+  const formatted = bids.map(bid => ({
+    ...bid,
+    artefact_title: bid.artefacts?.title || 'Unknown',
+    donor_name: bid.users?.name || 'Unknown',
+    donor_email: bid.users?.email || 'Unknown',
+  }));
+
+  res.json(formatted);
 });
 
 module.exports = router;
