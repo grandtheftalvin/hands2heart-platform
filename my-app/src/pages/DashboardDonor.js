@@ -5,7 +5,6 @@ import './DashboardDonor.css';
 
 function DashboardDonor() {
   const [artefacts, setArtefacts] = useState([]);
-  const [bid, setBid] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,60 +17,66 @@ function DashboardDonor() {
         console.error('Error fetching artefacts:', error);
       }
     };
-
     fetchArtefacts();
   }, []);
 
-  const handleBidChange = (e, id) => {
-    setBid({ ...bid, [id]: e.target.value });
-  };
-
-  const handleBidSubmit = async (id) => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/bids`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ artefact_id: id, amount: bid[id] }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        alert(`Bid of $${bid[id]} submitted successfully.`);
-      } else {
-        alert(data.message || 'Bid failed');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('An error occurred while submitting the bid.');
-    }
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
   };
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
-        <h1>Donor Dashboard</h1>
-        <button onClick={() => navigate('/donor/artefacts')}>View Artefacts</button>
+    <div className="dashboard p-6">
+      <div className="dashboard-header flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Donor Dashboard</h1>
+        <div className="space-x-4">
+          <button
+            onClick={() => navigate('/donor/artefacts')}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            View Artefacts
+          </button>
+          <button
+            onClick={() => navigate('/donor/my-bids')}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            My Bids
+          </button>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       {artefacts.length === 0 ? (
         <p>No artefacts available at the moment.</p>
       ) : (
-        artefacts.map((artefact) => (
-          <div key={artefact._id} className="artefact-card">
-            <img src={`http://localhost:5000/uploads/${artefact.image_url}`} alt={artefact.title} className="artefact-image" />
-            <div className="artefact-price">Price: Kshs{artefact.price}</div>
-            <div className="artefact-title">{artefact.title}</div>
-            <p>{artefact.description}</p>
-            <div className="bid-section">
-              <input
-                type="number"
-                placeholder="Enter your bid"
-                value={bid[artefact._id] || ''}
-                onChange={(e) => handleBidChange(e, artefact._id)}
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {artefacts.map((artefact) => (
+            <div key={artefact.id} className="artefact-card bg-white shadow rounded overflow-hidden">
+              <img
+                src={`http://localhost:5000/uploads/${artefact.image_url}`}
+                alt={artefact.title}
+                className="artefact-image w-full h-40 object-cover"
               />
-              <button onClick={() => handleBidSubmit(artefact._id)}>Submit Bid</button>
+              <div className="p-4">
+                <h2 className="artefact-title text-lg font-semibold mb-2">{artefact.title}</h2>
+                <p className="artefact-description mb-2">{artefact.description}</p>
+                <p className="artefact-price font-semibold mb-4">Price: Kshs {artefact.price}</p>
+                <button
+                  onClick={() => navigate(`/donor/bid/${artefact.id}`)}
+                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                >
+                  Place Bid
+                </button>
+              </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );

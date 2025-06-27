@@ -70,6 +70,15 @@ function Signup() {
           required
         />
         <input
+          type="tel"
+          name="phone"
+          placeholder="Phone Number"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+/>
+
+        <input
           type="password"
           name="password"
           placeholder="Password"
