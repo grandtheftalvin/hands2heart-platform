@@ -10,7 +10,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import DonorArtefactlist from './pages/DonorArtefactlist'; 
 import InstructorArtefactList from './pages/InstructorArtefactList';
 import DonorBidForm from './pages/DonorBidForm';
-import DonorMyBids from './pages/DonorMyBids';
+import DonorCart from './pages/DonorCart';
 function App() {
   return (
     <BrowserRouter>
@@ -25,7 +25,7 @@ function App() {
          <Route path="/donor/artefacts" element={<DonorArtefactlist />} />
         <Route path="/instructor/artefacts" element={<InstructorArtefactList />} />
         <Route path="/donor/bid/:id" element={<DonorBidForm />} />
-        <Route path="/donor/my-bids" element={<DonorMyBids />} />
+        <Route path="/donor/cart" element={<DonorCart />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

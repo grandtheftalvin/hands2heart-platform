@@ -38,7 +38,7 @@ function DashboardDonor() {
             View Artefacts
           </button>
           <button
-            onClick={() => navigate('/donor/my-bids')}
+            onClick={() => navigate('/donor/cart')}
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             My Bids
