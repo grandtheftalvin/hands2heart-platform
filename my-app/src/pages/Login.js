@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css'; // Import your CSS
+import Loginimage from '../pages/Login-image.jpeg';
+import givingHand from '../pages/orange-hand.jpg'; 
+
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -42,6 +45,14 @@ function Login() {
   return (
     <div className="login-page">
       <ToastContainer />
+       <div className="login-image">
+      <img src={Loginimage} alt="Log in image" className="log-in-image"/>
+      </div>
+
+      <div className="login-form-container">
+      <div className="logo-section">
+        <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
+      </div>
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Login</h2>
         <input
@@ -61,7 +72,11 @@ function Login() {
           required
         />
         <button type="submit">Login</button>
+        <a href= "/forgotpassword" className="forgotpassword">
+        forgotpassword?
+        </a>
       </form>
+    </div>
     </div>
   );
 }

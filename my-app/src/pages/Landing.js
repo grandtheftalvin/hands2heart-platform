@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './Landing.css'; // <-- Import the CSS
-import givingHand from '../pages/orange-hand.jpg'; // Adjust the path as necessary
+ import givingHand from '../pages/orange-hand.jpg';// Adjust the path as necessary
 
 function Landing() {
   return (
