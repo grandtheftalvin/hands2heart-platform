@@ -9,10 +9,13 @@ function DashboardAdmin() {
   const navigate = useNavigate();
   const [stats, setStats] = useState(null);
   const [pendingArtefacts, setPendingArtefacts] = useState([]);
+  const [pendingBids, setPendingBids] = useState([]);
+  const [activeTab, setActiveTab] = useState('artefacts'); // 'artefacts' or 'bids'
 
   useEffect(() => {
     fetchStats();
     fetchArtefacts();
+    fetchPendingBids();
   }, []);
 
   // Logout handler
@@ -43,7 +46,18 @@ function DashboardAdmin() {
     }
   };
 
-  const handleAction = async (id, status) => {
+  // Fetch pending bids
+  const fetchPendingBids = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/bids/pending');
+      const data = await res.json();
+      setPendingBids(data);
+    } catch (err) {
+      console.error('Error fetching pending bids:', err);
+    }
+  };
+
+  const handleArtefactAction = async (id, status) => {
     try {
       const res = await fetch(`http://localhost:5000/api/artefacts/${id}/status`, {
         method: 'PATCH',
@@ -59,6 +73,26 @@ function DashboardAdmin() {
       }
     } catch (err) {
       console.error('Action error:', err);
+      toast.error('Server error');
+    }
+  };
+
+  const handleBidAction = async (bidId, action) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/bids/${bidId}/${action}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const result = await res.json();
+      if (res.ok) {
+        toast.success(`Bid ${action}d successfully`);
+        fetchPendingBids();
+        fetchStats(); // Refresh stats
+      } else {
+        toast.error(result.message || 'Action failed');
+      }
+    } catch (err) {
+      console.error('Bid action error:', err);
       toast.error('Server error');
     }
   };
@@ -98,37 +132,104 @@ function DashboardAdmin() {
           </div>
           <div className="bg-white p-4 shadow rounded">
             <h2 className="text-lg font-semibold">Total Donations</h2>
-            <p className="text-xl">Kshs {stats.totalDonations}</p>
+            <p className="text-xl">Kshs {stats.totalDonations?.toLocaleString()}</p>
           </div>
         </div>
       ) : (
         <p>Loading stats...</p>
       )}
 
+      {/* Tab Navigation */}
+      <div className="flex space-x-4 mb-6">
+        <button
+          onClick={() => setActiveTab('artefacts')}
+          className={`px-4 py-2 rounded font-medium ${
+            activeTab === 'artefacts'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          Pending Artefacts ({pendingArtefacts.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('bids')}
+          className={`px-4 py-2 rounded font-medium ${
+            activeTab === 'bids'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          Pending Bids ({pendingBids.length})
+        </button>
+      </div>
+
       {/* Pending Artefacts Section */}
-      <h2 className="text-xl font-bold mb-2">Pending Artefacts</h2>
-      {pendingArtefacts.length === 0 ? (
-        <p className="no-artefacts">No pending artefacts at the moment.</p>
-      ) : (
-        <div className="artefact-grid">
-          {pendingArtefacts.map((a) => (
-            <div key={a.id} className="artefact-card">
-              <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} />
-              <div className="card-content">
-                <h2>{a.title}</h2>
-                <p>{a.description}</p>
-                <p className="price">Price: Kshs{a.price}</p>
-                <div className="button-group">
-                  <button onClick={() => handleAction(a.id, 'approved')} className="approve-btn">
-                    Approve
-                  </button>
-                  <button onClick={() => handleAction(a.id, 'rejected')} className="reject-btn">
-                    Reject
-                  </button>
+      {activeTab === 'artefacts' && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">Pending Artefacts</h2>
+          {pendingArtefacts.length === 0 ? (
+            <p className="no-artefacts">No pending artefacts at the moment.</p>
+          ) : (
+            <div className="artefact-grid">
+              {pendingArtefacts.map((a) => (
+                <div key={a.id} className="artefact-card">
+                  <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} />
+                  <div className="card-content">
+                    <h2>{a.title}</h2>
+                    <p>{a.description}</p>
+                    <p className="price">Price: Kshs {a.price}</p>
+                    <div className="button-group">
+                      <button onClick={() => handleArtefactAction(a.id, 'approved')} className="approve-btn">
+                        Approve
+                      </button>
+                      <button onClick={() => handleArtefactAction(a.id, 'rejected')} className="reject-btn">
+                        Reject
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          )}
+        </div>
+      )}
+
+      {/* Pending Bids Section */}
+      {activeTab === 'bids' && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">Pending Bids</h2>
+          {pendingBids.length === 0 ? (
+            <p className="no-bids">No pending bids at the moment.</p>
+          ) : (
+            <div className="bids-grid">
+              {pendingBids.map((bid) => (
+                <div key={bid.id} className="bid-card">
+                  <div className="bid-header">
+                    <h3 className="text-lg font-semibold">{bid.artefact_title}</h3>
+                    <span className="bid-amount">Kshs {bid.amount?.toLocaleString()}</span>
+                  </div>
+                  <div className="bid-details">
+                    <p><strong>Donor:</strong> {bid.donor_name}</p>
+                    <p><strong>Bid ID:</strong> {bid.id}</p>
+                  </div>
+                  <div className="bid-actions">
+                    <button
+                      onClick={() => handleBidAction(bid.id, 'approve')}
+                      className="approve-btn"
+                    >
+                      Approve Bid
+                    </button>
+                    <button
+                      onClick={() => handleBidAction(bid.id, 'reject')}
+                      className="reject-btn"
+                    >
+                      Reject Bid
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

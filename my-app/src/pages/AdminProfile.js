@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUser, logout, updateUser } from '../utils/auth';
 import './AdminProfile.css';
 
 function AdminProfile() {
@@ -15,35 +16,54 @@ function AdminProfile() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
-
   const fetchUserProfile = async () => {
     try {
-      const userData = JSON.parse(localStorage.getItem('user'));
+      const userData = getUser();
       if (!userData) {
         navigate('/login');
         return;
       }
 
+      // First try to get from localStorage
+      if (userData.name && userData.email) {
+        setUser(userData);
+        setFormData({
+          name: userData.name || '',
+          email: userData.email || '',
+          phone: userData.phone || '',
+          address: userData.address || ''
+        });
+        setLoading(false);
+        return;
+      }
+
+      // If not in localStorage, fetch from API
       const response = await fetch(`http://localhost:5000/api/users/${userData.id}`);
-      const userProfile = await response.json();
-      
-      setUser(userProfile);
-      setFormData({
-        name: userProfile.name || '',
-        email: userProfile.email || '',
-        phone: userProfile.phone || '',
-        address: userProfile.address || ''
-      });
+
+      if (response.ok) {
+        const userProfile = await response.json();
+        setUser(userProfile);
+        setFormData({
+          name: userProfile.name || '',
+          email: userProfile.email || '',
+          phone: userProfile.phone || '',
+          address: userProfile.address || ''
+        });
+      } else {
+        console.error('Failed to fetch user profile');
+        setMessage('Failed to load profile data');
+      }
     } catch (error) {
       console.error('Error fetching user profile:', error);
-      setMessage('Error loading profile');
+      setMessage('Error loading profile data');
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, [navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,7 +79,13 @@ function AdminProfile() {
     setMessage('');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const userData = getUser();
+      if (!userData) {
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/users/${userData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -70,13 +96,13 @@ function AdminProfile() {
       const data = await response.json();
 
       if (response.ok) {
-        setUser({ ...user, ...formData });
+        const updatedUser = { ...user, ...formData };
+        setUser(updatedUser);
         setIsEditing(false);
         setMessage('Profile updated successfully!');
         
         // Update localStorage
-        const updatedUser = { ...user, ...formData };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        updateUser(updatedUser);
         
         setTimeout(() => setMessage(''), 3000);
       } else {
@@ -91,7 +117,7 @@ function AdminProfile() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    logout();
     navigate('/login');
   };
 
@@ -270,19 +296,19 @@ function AdminProfile() {
             <h4>Quick Actions</h4>
             <div className="action-buttons">
               <button
-                onClick={() => navigate('/admin/artefacts/pending')}
+                onClick={() => navigate('/dashboard/admin')}
                 className="btn btn-warning"
               >
                 Review Artefacts
               </button>
               <button
-                onClick={() => navigate('/admin/users')}
+                onClick={() => navigate('/dashboard/admin')}
                 className="btn btn-info"
               >
                 Manage Users
               </button>
               <button
-                onClick={() => navigate('/admin/reports')}
+                onClick={() => navigate('/dashboard/admin')}
                 className="btn btn-secondary"
               >
                 View Reports

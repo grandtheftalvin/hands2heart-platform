@@ -16,32 +16,52 @@ function DonorProfile() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const userData = getUser();
-        if (!userData) {
-          navigate('/login');
-          return;
-        }
-
-        const response = await fetch(`http://localhost:5000/api/users/${userData.id}`, {
-          headers: {
-            'Authorization': `Bearer ${userData.token}`
-          }
-        });
-
-        if (response.ok) {
-          const userProfile = await response.json();
-          setUser(userProfile);
-        } else {
-          console.error('Failed to fetch user profile');
-        }
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
+  const fetchUserProfile = async () => {
+    try {
+      const userData = getUser();
+      if (!userData) {
+        navigate('/login');
+        return;
       }
-    };
 
+      // First try to get from localStorage
+      if (userData.name && userData.email) {
+        setUser(userData);
+        setFormData({
+          name: userData.name || '',
+          email: userData.email || '',
+          phone: userData.phone || '',
+          address: userData.address || ''
+        });
+        setLoading(false);
+        return;
+      }
+
+      // If not in localStorage, fetch from API
+      const response = await fetch(`http://localhost:5000/api/users/${userData.id}`);
+
+      if (response.ok) {
+        const userProfile = await response.json();
+        setUser(userProfile);
+        setFormData({
+          name: userProfile.name || '',
+          email: userProfile.email || '',
+          phone: userProfile.phone || '',
+          address: userProfile.address || ''
+        });
+      } else {
+        console.error('Failed to fetch user profile');
+        setMessage('Failed to load profile data');
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      setMessage('Error loading profile data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchUserProfile();
   }, [navigate]);
 
@@ -59,7 +79,13 @@ function DonorProfile() {
     setMessage('');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const userData = getUser();
+      if (!userData) {
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/users/${userData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -125,6 +125,20 @@ router.patch('/:id/approve', async (req, res) => {
   res.json({ message: 'Bid approved' });
 });
 
+// PATCH /api/bids/:id/reject
+router.patch('/:id/reject', async (req, res) => {
+  const { id } = req.params;
+
+  const { error } = await supabase
+    .from('bids')
+    .update({ status: 'rejected' })
+    .eq('id', id);
+
+  if (error) return res.status(500).json({ message: 'Rejection failed' });
+
+  res.json({ message: 'Bid rejected' });
+});
+
 // GET /api/bids/stats
 router.get('/stats', async (req, res) => {
   const { instructor_id, artefact_id } = req.query;

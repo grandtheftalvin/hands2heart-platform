@@ -15,7 +15,6 @@ import DonorNotifications from './pages/DonorNotifications';
 import DonorProfile from './pages/DonorProfile';
 import InstructorProfile from './pages/InstructorProfile';
 import AdminProfile from './pages/AdminProfile';
-import PaymentModal from './components/PaymentModal';
 
 function App() {
   return (
@@ -28,10 +27,11 @@ function App() {
         <Route path="/dashboard/instructor" element={<DashboardInstructor />} />
         <Route path="/dashboard/admin" element={<DashboardAdmin />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
-         <Route path="/donor/artefacts" element={<DonorArtefactlist />} />
+        <Route path="/donor/artefacts" element={<DonorArtefactlist />} />
         <Route path="/instructor/artefacts" element={<InstructorArtefactList />} />
         <Route path="/donor/bid/:id" element={<DonorBidForm />} />
         <Route path="/donor/cart" element={<DonorCart />} />
+        <Route path="/donor/my-bids" element={<DonorCart />} />
         <Route path="/donor/notifications" element={<DonorNotifications />} />
         <Route path="/donor/profile" element={<DonorProfile />} />
         <Route path="/instructor/profile" element={<InstructorProfile />} />

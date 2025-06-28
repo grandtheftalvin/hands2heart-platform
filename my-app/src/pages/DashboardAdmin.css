@@ -59,11 +59,37 @@
   font-weight: 700;
 }
 
+/* Tab Navigation */
+.admin-dashboard .flex.space-x-4 {
+  margin-bottom: 2rem;
+}
+
+.admin-dashboard .flex.space-x-4 button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-dashboard .flex.space-x-4 button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
 /* Card Grid */
 .artefact-grid {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.bids-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 /* Individual card */
@@ -116,6 +142,84 @@
   font-size: 1.1rem;
 }
 
+/* Bid Card */
+.bid-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  color: #333;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.bid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.bid-card .bid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bid-card .bid-header h3 {
+  color: #f97316;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.bid-card .bid-amount {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.bid-card .bid-details {
+  margin-bottom: 1.5rem;
+}
+
+.bid-card .bid-details p {
+  margin-bottom: 0.5rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.bid-card .bid-details strong {
+  color: #333;
+}
+
+.bid-card .bid-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bid-card .bid-actions button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bid-card .bid-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
 /* Buttons */
 .artefact-card .button-group {
   display: flex;
@@ -140,24 +244,29 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-.artefact-card .approve-btn {
+.artefact-card .approve-btn,
+.bid-card .approve-btn {
   background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
 }
 
-.artefact-card .approve-btn:hover {
+.artefact-card .approve-btn:hover,
+.bid-card .approve-btn:hover {
   background: linear-gradient(135deg, #15803d 0%, #166534 100%);
 }
 
-.artefact-card .reject-btn {
+.artefact-card .reject-btn,
+.bid-card .reject-btn {
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
 }
 
-.artefact-card .reject-btn:hover {
+.artefact-card .reject-btn:hover,
+.bid-card .reject-btn:hover {
   background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
 }
 
 /* Empty state */
-.no-artefacts {
+.no-artefacts,
+.no-bids {
   text-align: center;
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.9);
@@ -166,4 +275,26 @@
   padding: 2rem;
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 1rem;
+  }
+  
+  .artefact-grid,
+  .bids-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bid-card .bid-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .bid-card .bid-actions {
+    flex-direction: column;
+  }
 }

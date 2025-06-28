@@ -10,8 +10,10 @@ function PaymentModal({ bid, onClose, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!phoneNumber || phoneNumber.length < 10) {
-      setError('Please enter a valid phone number');
+    // Validate phone number format
+    const cleanedPhone = phoneNumber.replace(/\D/g, '');
+    if (!cleanedPhone || cleanedPhone.length !== 12 || !cleanedPhone.startsWith('254')) {
+      setError('Please enter a valid Kenyan phone number (e.g., 254712345678)');
       return;
     }
 
@@ -19,16 +21,14 @@ function PaymentModal({ bid, onClose, onSuccess }) {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/payments/initiate', {
+      const response = await fetch('http://localhost:5000/api/pay', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          bid_id: bid.id,
-          phone_number: phoneNumber,
-          amount: bid.amount,
-          artefact_title: bid.artefact_title
+          phone: cleanedPhone,
+          amount: bid.amount
         }),
       });
 
@@ -53,23 +53,21 @@ function PaymentModal({ bid, onClose, onSuccess }) {
     }
   };
 
-  const formatPhoneNumber = (value) => {
-    // Remove all non-digits
-    const cleaned = value.replace(/\D/g, '');
-    
-    // Format as Kenyan phone number
-    if (cleaned.length <= 3) {
-      return cleaned;
-    } else if (cleaned.length <= 6) {
-      return `${cleaned.slice(0, 3)} ${cleaned.slice(3)}`;
-    } else {
-      return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6, 9)}`;
-    }
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    // Only allow digits and spaces
+    const cleaned = value.replace(/[^\d\s]/g, '');
+    setPhoneNumber(cleaned);
+    setError(''); // Clear error when user starts typing
   };
 
-  const handlePhoneChange = (e) => {
-    const formatted = formatPhoneNumber(e.target.value);
-    setPhoneNumber(formatted);
+  const formatPhoneNumber = (value) => {
+    const cleaned = value.replace(/\D/g, '');
+    if (cleaned.length === 0) return '';
+    if (cleaned.length <= 3) return cleaned;
+    if (cleaned.length <= 6) return `${cleaned.slice(0, 3)} ${cleaned.slice(3)}`;
+    if (cleaned.length <= 9) return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6)}`;
+    return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6, 9)} ${cleaned.slice(9, 12)}`;
   };
 
   return (
@@ -91,7 +89,7 @@ function PaymentModal({ bid, onClose, onSuccess }) {
                 </div>
                 <div className="summary-item">
                   <span>Amount:</span>
-                  <span className="amount">Kshs {bid.amount}</span>
+                  <span className="amount">Kshs {bid.amount?.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -104,11 +102,14 @@ function PaymentModal({ bid, onClose, onSuccess }) {
                     value={phoneNumber}
                     onChange={handlePhoneChange}
                     placeholder="254 700 000 000"
-                    maxLength="12"
+                    maxLength="15"
                     disabled={loading}
                     className={error ? 'error' : ''}
                   />
                   {error && <span className="error-message">{error}</span>}
+                  <small className="help-text">
+                    Enter your M-Pesa registered phone number (12 digits starting with 254)
+                  </small>
                 </div>
 
                 <div className="payment-instructions">
@@ -152,6 +153,7 @@ function PaymentModal({ bid, onClose, onSuccess }) {
               <div className="processing-tips">
                 <p>💡 Make sure your phone has network coverage</p>
                 <p>💡 Keep this window open until payment is complete</p>
+                <p>💡 Enter your M-Pesa PIN when prompted</p>
               </div>
             </div>
           )}

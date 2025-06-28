@@ -48,23 +48,23 @@ function DashboardDonor() {
     <div className="dashboard p-6">
       <div className="dashboard-header flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Donor Dashboard</h1>
-        <div className="space-x-4">
+        <div className="dashboard-buttons">
           <button
             onClick={() => navigate('/donor/artefacts')}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="dashboard-btn primary-btn"
           >
             View Artefacts
           </button>
           <button
-            onClick={() => navigate('/donor/cart')}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            onClick={() => navigate('/donor/my-bids')}
+            className="dashboard-btn secondary-btn"
           >
             My Bids
           </button>
-          <div className="relative inline-block">
+          <div className="notification-container">
             <button
               onClick={() => navigate('/donor/notifications')}
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 relative"
+              className="dashboard-btn notification-btn"
             >
               Notifications
               {notificationCount > 0 && (
@@ -76,13 +76,13 @@ function DashboardDonor() {
           </div>
           <button
             onClick={() => navigate('/donor/profile')}
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+            className="dashboard-btn profile-btn"
           >
             Profile
           </button>
           <button
             onClick={handleLogout}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            className="dashboard-btn logout-btn"
           >
             Logout
           </button>

@@ -37,7 +37,7 @@ function DonorArtefactList() {
             <div className="artefact-content">
               <h2>{a.title}</h2>
               <p>{a.description}</p>
-              <p className="price">Price: ${a.price}</p>
+              <p className="price">Price: Kshs {a.price}</p>
               <button onClick={() => navigate(`/donor/bid/${a.id}`)}>Place Bid</button>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUser, logout, updateUser } from '../utils/auth';
 import './InstructorProfile.css';
 
 function InstructorProfile() {
@@ -16,36 +17,56 @@ function InstructorProfile() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
-
   const fetchUserProfile = async () => {
     try {
-      const userData = JSON.parse(localStorage.getItem('user'));
+      const userData = getUser();
       if (!userData) {
         navigate('/login');
         return;
       }
 
+      // First try to get from localStorage
+      if (userData.name && userData.email) {
+        setUser(userData);
+        setFormData({
+          name: userData.name || '',
+          email: userData.email || '',
+          phone: userData.phone || '',
+          address: userData.address || '',
+          specialization: userData.specialization || ''
+        });
+        setLoading(false);
+        return;
+      }
+
+      // If not in localStorage, fetch from API
       const response = await fetch(`http://localhost:5000/api/users/${userData.id}`);
-      const userProfile = await response.json();
-      
-      setUser(userProfile);
-      setFormData({
-        name: userProfile.name || '',
-        email: userProfile.email || '',
-        phone: userProfile.phone || '',
-        address: userProfile.address || '',
-        specialization: userProfile.specialization || ''
-      });
+
+      if (response.ok) {
+        const userProfile = await response.json();
+        setUser(userProfile);
+        setFormData({
+          name: userProfile.name || '',
+          email: userProfile.email || '',
+          phone: userProfile.phone || '',
+          address: userProfile.address || '',
+          specialization: userProfile.specialization || ''
+        });
+      } else {
+        console.error('Failed to fetch user profile');
+        setMessage('Failed to load profile data');
+      }
     } catch (error) {
       console.error('Error fetching user profile:', error);
-      setMessage('Error loading profile');
+      setMessage('Error loading profile data');
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, [navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +82,13 @@ function InstructorProfile() {
     setMessage('');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const userData = getUser();
+      if (!userData) {
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/users/${userData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -72,13 +99,13 @@ function InstructorProfile() {
       const data = await response.json();
 
       if (response.ok) {
-        setUser({ ...user, ...formData });
+        const updatedUser = { ...user, ...formData };
+        setUser(updatedUser);
         setIsEditing(false);
         setMessage('Profile updated successfully!');
         
         // Update localStorage
-        const updatedUser = { ...user, ...formData };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        updateUser(updatedUser);
         
         setTimeout(() => setMessage(''), 3000);
       } else {
@@ -93,7 +120,7 @@ function InstructorProfile() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    logout();
     navigate('/login');
   };
 
@@ -276,7 +303,7 @@ function InstructorProfile() {
             </div>
             <div className="stat-card">
               <div className="stat-number">0</div>
-              <div className="stat-label">Total Bids Received</div>
+              <div className="stat-label">Total Bids</div>
             </div>
             <div className="stat-card">
               <div className="stat-number">Kshs 0</div>

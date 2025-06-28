@@ -9,6 +9,7 @@ function DonorBidForm() {
   const [amount, setAmount] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [artefactLoading, setArtefactLoading] = useState(true);
   const navigate = useNavigate();
   const [donorId, setDonorId] = useState(null);
   const [artefact, setArtefact] = useState(null);
@@ -25,17 +26,20 @@ function DonorBidForm() {
 
     // Fetch artefact details
     const fetchArtefact = async () => {
+      setArtefactLoading(true);
       try {
         const response = await fetch(`http://localhost:5000/api/artefacts/${id}`);
         if (response.ok) {
           const data = await response.json();
           setArtefact(data);
         } else {
-          setMessage('Artefact not found');
+          setMessage('Artefact not found. It may have been removed or is no longer available.');
         }
       } catch (error) {
         console.error('Error fetching artefact:', error);
-        setMessage('Error loading artefact details');
+        setMessage('Error loading artefact details. Please try again.');
+      } finally {
+        setArtefactLoading(false);
       }
     };
 
@@ -47,6 +51,11 @@ function DonorBidForm() {
     
     if (!donorId) {
       setMessage('Please log in to place a bid');
+      return;
+    }
+
+    if (!artefact) {
+      setMessage('Artefact not available for bidding');
       return;
     }
 
@@ -73,7 +82,7 @@ function DonorBidForm() {
       
       if (response.ok) {
         setMessage('Bid submitted successfully! Awaiting approval.');
-        setTimeout(() => navigate('/donor/cart'), 2000);
+        setTimeout(() => navigate('/donor/my-bids'), 2000);
       } else {
         setMessage(data.message || 'Failed to submit bid');
       }
@@ -94,17 +103,43 @@ function DonorBidForm() {
     );
   }
 
+  if (artefactLoading) {
+    return (
+      <div className="bid-form-container">
+        <h1>Loading Artefact...</h1>
+        <p>Please wait while we fetch the artefact details.</p>
+      </div>
+    );
+  }
+
+  if (!artefact) {
+    return (
+      <div className="bid-form-container">
+        <h1>Artefact Not Found</h1>
+        <p>{message}</p>
+        <button onClick={() => navigate('/donor/artefacts')} className="back-btn">
+          Back to Artefacts
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="bid-form-container">
       <h1>Place Your Bid</h1>
       
-      {artefact && (
-        <div className="artefact-details">
-          <h2>{artefact.title}</h2>
-          <p>{artefact.description}</p>
-          <p className="price">Suggested Price: Kshs {artefact.price}</p>
-        </div>
-      )}
+      <div className="artefact-details">
+        <h2>{artefact.title}</h2>
+        <p>{artefact.description}</p>
+        <p className="price">Suggested Price: Kshs {artefact.price}</p>
+        {artefact.image_url && (
+          <img 
+            src={`http://localhost:5000/uploads/${artefact.image_url}`}
+            alt={artefact.title}
+            className="artefact-image"
+          />
+        )}
+      </div>
 
       <form onSubmit={handleSubmit} className="bid-form">
         <div className="form-group">
@@ -132,6 +167,10 @@ function DonorBidForm() {
           {message}
         </div>
       )}
+      
+      <button onClick={() => navigate('/donor/artefacts')} className="back-btn">
+        Back to Artefacts
+      </button>
     </div>
   );
 }

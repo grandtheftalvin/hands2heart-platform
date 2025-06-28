@@ -44,7 +44,17 @@
   color: #28a745;
   font-weight: 600;
   font-size: 1.1rem;
-  margin-bottom: 0;
+  margin-bottom: 15px;
+}
+
+.artefact-image {
+  width: 100%;
+  max-width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bid-form {
@@ -113,6 +123,27 @@
   transform: none;
 }
 
+.back-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.back-btn:hover {
+  background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+}
+
 .message {
   margin-top: 20px;
   padding: 15px 20px;
@@ -147,5 +178,10 @@
   .artefact-details,
   .bid-form {
     padding: 20px;
+  }
+  
+  .artefact-image {
+    max-width: 100%;
+    height: 150px;
   }
 } 
