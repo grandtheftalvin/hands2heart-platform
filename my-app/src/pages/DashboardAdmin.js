@@ -117,7 +117,7 @@ function DashboardAdmin() {
               <div className="card-content">
                 <h2>{a.title}</h2>
                 <p>{a.description}</p>
-                <p className="price">Price: ${a.price}</p>
+                <p className="price">Price: Kshs{a.price}</p>
                 <div className="button-group">
                   <button onClick={() => handleAction(a.id, 'approved')} className="approve-btn">
                     Approve

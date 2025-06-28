@@ -19,10 +19,7 @@ function Landing() {
           Join us in making a difference in the lives of learners with special needs.
         </p>
         </div>
-        {/* <div className="button-group">
-          <a href="/signup" className="btn">Sign Up</a>
-          <a href="/login" className="btn">Login</a>
-        </div> */}
+        
      <div className="logo-section">
             <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
      </div>
