@@ -15,6 +15,7 @@ import DonorNotifications from './pages/DonorNotifications';
 import DonorProfile from './pages/DonorProfile';
 import InstructorProfile from './pages/InstructorProfile';
 import AdminProfile from './pages/AdminProfile';
+import AdminUsers from './pages/AdminUsers';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/donor/profile" element={<DonorProfile />} />
         <Route path="/instructor/profile" element={<InstructorProfile />} />
         <Route path="/admin/profile" element={<AdminProfile />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

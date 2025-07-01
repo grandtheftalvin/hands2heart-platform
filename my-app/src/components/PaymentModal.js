@@ -21,14 +21,16 @@ function PaymentModal({ bid, onClose, onSuccess }) {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/pay', {
+      const response = await fetch('http://localhost:5000/api/payments/initiate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          phone: cleanedPhone,
-          amount: bid.amount
+          bid_id: bid.id,
+          phone_number: cleanedPhone,
+          amount: bid.amount,
+          artefact_title: bid.artefact_title
         }),
       });
 
@@ -99,7 +101,7 @@ function PaymentModal({ bid, onClose, onSuccess }) {
                   <input
                     type="tel"
                     id="phone"
-                    value={phoneNumber}
+                    value={phoneNumber || ''}
                     onChange={handlePhoneChange}
                     placeholder="254 700 000 000"
                     maxLength="15"

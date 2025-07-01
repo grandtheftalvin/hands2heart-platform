@@ -43,12 +43,13 @@ router.post('/', upload.single('image'), async (req, res) => {
 
 // Get all artefacts (with optional filters)
 router.get('/', async (req, res) => {
-  const { status, stock } = req.query;
+  const { status, stock, instructor_id } = req.query;
 
   let query = supabase.from('artefacts').select('*');
 
   if (status) query = query.eq('status', status);
   if (stock) query = query.eq('stock_status', stock);
+  if (instructor_id) query = query.eq('instructor_id', instructor_id);
 
   const { data, error } = await query;
 

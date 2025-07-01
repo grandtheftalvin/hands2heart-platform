@@ -224,3 +224,14 @@
     font-size: 0.875rem;
   }
 }
+
+.dashboard-btn.white-btn {
+  background: white !important;
+  color: #f97316 !important;
+  border: 1px solid #f97316;
+}
+.dashboard-btn.white-btn:hover {
+  background: #f3f3f3 !important;
+  color: #ea580c !important;
+  border: 1px solid #ea580c;
+}

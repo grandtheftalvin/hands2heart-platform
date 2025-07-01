@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUser, logout } from '../utils/auth';
 import './DashboardDonor.css';
+import DonationModal from '../components/DonationModal';
 
 function DashboardDonor() {
   const [artefacts, setArtefacts] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
+  const [showDonationModal, setShowDonationModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,20 +53,20 @@ function DashboardDonor() {
         <div className="dashboard-buttons">
           <button
             onClick={() => navigate('/donor/artefacts')}
-            className="dashboard-btn primary-btn"
+            className="dashboard-btn white-btn"
           >
             View Artefacts
           </button>
           <button
             onClick={() => navigate('/donor/my-bids')}
-            className="dashboard-btn secondary-btn"
+            className="dashboard-btn white-btn"
           >
             My Bids
           </button>
           <div className="notification-container">
             <button
               onClick={() => navigate('/donor/notifications')}
-              className="dashboard-btn notification-btn"
+              className="dashboard-btn white-btn"
             >
               Notifications
               {notificationCount > 0 && (
@@ -76,44 +78,42 @@ function DashboardDonor() {
           </div>
           <button
             onClick={() => navigate('/donor/profile')}
-            className="dashboard-btn profile-btn"
+            className="dashboard-btn white-btn"
           >
             Profile
           </button>
           <button
             onClick={handleLogout}
-            className="dashboard-btn logout-btn"
+            className="dashboard-btn white-btn"
           >
             Logout
           </button>
         </div>
       </div>
 
-      {artefacts.length === 0 ? (
-        <p>No artefacts available at the moment.</p>
-      ) : (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          {artefacts.map((artefact) => (
-            <div key={artefact.id} className="artefact-card bg-white shadow rounded overflow-hidden">
-              <img
-                src={`http://localhost:5000/uploads/${artefact.image_url}`}
-                alt={artefact.title}
-                className="artefact-image w-full h-40 object-cover"
-              />
-              <div className="p-4">
-                <h2 className="artefact-title text-lg font-semibold mb-2">{artefact.title}</h2>
-                <p className="artefact-description mb-2">{artefact.description}</p>
-                <p className="artefact-price font-semibold mb-4">Price: Kshs {artefact.price}</p>
-                <button
-                  onClick={() => navigate(`/donor/bid/${artefact.id}`)}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-                >
-                  Place Bid
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="dashboard-landing-content">
+        <p className="main-paragraph">
+          Connecting special needs schools with donors, partners, and supporters, our platform provides 
+          a space to showcase and support the creativity of learners with special needs. 
+          By bridging this gap, we foster inclusion, awareness, and meaningful opportunities for collaboration and impact.
+        </p>
+        <p className="main-paragraph">
+          Join us in making a difference in the lives of learners with special needs.
+        </p>
+      </div>
+
+      <div style={{ margin: '2rem 0', textAlign: 'center' }}>
+        <button
+          className="dashboard-btn white-btn"
+          style={{ fontWeight: 700, fontSize: '1.1rem', border: '2px solid #f97316', color: '#f97316', borderRadius: '8px', padding: '12px 32px', margin: '0 auto', display: 'inline-block' }}
+          onClick={() => setShowDonationModal(true)}
+        >
+          Donate
+        </button>
+      </div>
+
+      {showDonationModal && (
+        <DonationModal onClose={() => setShowDonationModal(false)} />
       )}
     </div>
   );

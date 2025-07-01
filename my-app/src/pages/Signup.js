@@ -14,6 +14,7 @@ function Signup() {
     password: '',
     confirmPassword: '',
     role: 'donor',
+    phone: ''
   });
 
   const navigate = useNavigate();
@@ -114,6 +115,26 @@ function Signup() {
         </select>
         <button type="submit">Sign Up</button>
       </form>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
+        <button
+          type="button"
+          onClick={() => navigate('/login')}
+          style={{ background: 'white', color: '#f97316', border: '1px solid #f97316', borderRadius: '6px', padding: '8px 20px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}
+          onMouseOver={e => e.target.style.background='#f3f3f3'}
+          onMouseOut={e => e.target.style.background='white'}
+        >
+          Login
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/')}
+          style={{ background: 'white', color: '#f97316', border: '1px solid #f97316', borderRadius: '6px', padding: '8px 20px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}
+          onMouseOver={e => e.target.style.background='#f3f3f3'}
+          onMouseOut={e => e.target.style.background='white'}
+        >
+          Home
+        </button>
+      </div>
     </div>
   </div>
   );

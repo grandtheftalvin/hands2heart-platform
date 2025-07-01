@@ -14,6 +14,7 @@ function AdminProfile() {
   });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [systemStats, setSystemStats] = useState({ users: 0, artefacts: 0, pending: 0, revenue: 0 });
   const navigate = useNavigate();
 
   const fetchUserProfile = async () => {
@@ -64,6 +65,27 @@ function AdminProfile() {
   useEffect(() => {
     fetchUserProfile();
   }, [navigate]);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const [usersRes, artefactsRes, pendingRes, revenueRes] = await Promise.all([
+          fetch('http://localhost:5000/api/users/count'),
+          fetch('http://localhost:5000/api/artefacts/count'),
+          fetch('http://localhost:5000/api/artefacts/pending/count'),
+          fetch('http://localhost:5000/api/payments/stats')
+        ]);
+        const users = (await usersRes.json()).count || 0;
+        const artefacts = (await artefactsRes.json()).count || 0;
+        const pending = (await pendingRes.json()).count || 0;
+        const revenue = (await revenueRes.json()).totalRevenue || 0;
+        setSystemStats({ users, artefacts, pending, revenue });
+      } catch (e) {
+        // fallback to 0s
+      }
+    }
+    fetchStats();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -275,19 +297,19 @@ function AdminProfile() {
           <h3>System Overview</h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-number">0</div>
+              <div className="stat-number">{systemStats.users}</div>
               <div className="stat-label">Total Users</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">0</div>
+              <div className="stat-number">{systemStats.artefacts}</div>
               <div className="stat-label">Total Artefacts</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">0</div>
+              <div className="stat-number">{systemStats.pending}</div>
               <div className="stat-label">Pending Approvals</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">Kshs 0</div>
+              <div className="stat-number">Kshs {systemStats.revenue.toLocaleString()}</div>
               <div className="stat-label">Total Revenue</div>
             </div>
           </div>
@@ -302,7 +324,7 @@ function AdminProfile() {
                 Review Artefacts
               </button>
               <button
-                onClick={() => navigate('/dashboard/admin')}
+                onClick={() => navigate('/admin/users')}
                 className="btn btn-info"
               >
                 Manage Users

@@ -126,6 +126,13 @@ function DonorBidForm() {
 
   return (
     <div className="bid-form-container">
+      <button
+        onClick={() => navigate('/dashboard/donor')}
+        className="btn btn-primary"
+        style={{ margin: '1rem 0' }}
+      >
+        Back to Dashboard
+      </button>
       <h1>Place Your Bid</h1>
       
       <div className="artefact-details">

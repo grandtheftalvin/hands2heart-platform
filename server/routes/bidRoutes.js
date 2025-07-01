@@ -220,4 +220,56 @@ router.get('/instructor/:instructor_id', async (req, res) => {
   res.json(formatted);
 });
 
+// GET /api/bids/donor-stats/:donor_id
+router.get('/donor-stats/:donor_id', async (req, res) => {
+  const { donor_id } = req.params;
+  try {
+    const { data, error } = await supabase
+      .from('bids')
+      .select('id, amount, status, paid')
+      .eq('donor_id', donor_id);
+    if (error) throw error;
+    const totalBids = data.length;
+    const approvedBids = data.filter(b => b.status === 'approved').length;
+    const completedPurchases = data.filter(b => b.paid === true).length;
+    const totalSpent = data.filter(b => b.paid === true).reduce((sum, b) => sum + parseFloat(b.amount), 0);
+    res.json({ totalBids, approvedBids, completedPurchases, totalSpent });
+  } catch (err) {
+    console.error('Donor stats error:', err);
+    res.status(500).json({ message: 'Failed to fetch donor stats' });
+  }
+});
+
+// GET /api/bids/instructor-stats/:instructor_id
+router.get('/instructor-stats/:instructor_id', async (req, res) => {
+  const { instructor_id } = req.params;
+  try {
+    // Get all artefacts for this instructor
+    const { data: artefacts, error: artefactError } = await supabase
+      .from('artefacts')
+      .select('id, approved')
+      .eq('instructor_id', instructor_id);
+    if (artefactError) throw artefactError;
+    const artefactIds = artefacts.map(a => a.id);
+    const totalArtefacts = artefacts.length;
+    const approvedArtefacts = artefacts.filter(a => a.approved === true).length;
+    // Get all bids for these artefacts
+    let totalBids = 0;
+    let totalEarnings = 0;
+    if (artefactIds.length > 0) {
+      const { data: bids, error: bidError } = await supabase
+        .from('bids')
+        .select('amount, paid, artefact_id')
+        .in('artefact_id', artefactIds);
+      if (bidError) throw bidError;
+      totalBids = bids.length;
+      totalEarnings = bids.filter(b => b.paid === true).reduce((sum, b) => sum + parseFloat(b.amount), 0);
+    }
+    res.json({ totalArtefacts, approvedArtefacts, totalBids, totalEarnings });
+  } catch (err) {
+    console.error('Instructor stats error:', err);
+    res.status(500).json({ message: 'Failed to fetch instructor stats' });
+  }
+});
+
 module.exports = router;
