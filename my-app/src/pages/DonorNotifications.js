@@ -53,14 +53,15 @@ function DonorNotifications() {
   return (
     <div className="notifications-container">
       <div className="notifications-header">
+        <button
+          onClick={() => navigate('/dashboard/donor')}
+          className="btn btn-primary"
+          style={{ marginRight: '1rem' }}
+        >
+          Back to Dashboard
+        </button>
         <h1>Notifications</h1>
         <div className="header-buttons">
-          <button
-            onClick={() => navigate('/dashboard/donor')}
-            className="btn btn-primary"
-          >
-            Back to Dashboard
-          </button>
           <button
             onClick={() => navigate('/donor/profile')}
             className="btn btn-secondary"

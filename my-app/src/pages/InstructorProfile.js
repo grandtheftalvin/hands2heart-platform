@@ -15,6 +15,7 @@ function InstructorProfile() {
   });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [stats, setStats] = useState({ totalArtefacts: 0, approvedArtefacts: 0, totalBids: 0, totalEarnings: 0 });
   const navigate = useNavigate();
 
   const fetchUserProfile = async () => {
@@ -66,6 +67,18 @@ function InstructorProfile() {
 
   useEffect(() => {
     fetchUserProfile();
+    async function fetchStats() {
+      const userData = getUser();
+      if (!userData) return;
+      try {
+        const res = await fetch(`http://localhost:5000/api/bids/instructor-stats/${userData.id}`);
+        if (res.ok) {
+          const data = await res.json();
+          setStats(data);
+        }
+      } catch (e) {}
+    }
+    fetchStats();
   }, [navigate]);
 
   const handleInputChange = (e) => {
@@ -294,19 +307,19 @@ function InstructorProfile() {
           <h3>Your Activity</h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-number">0</div>
+              <div className="stat-number">{stats.totalArtefacts}</div>
               <div className="stat-label">Total Artefacts</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">0</div>
+              <div className="stat-number">{stats.approvedArtefacts}</div>
               <div className="stat-label">Approved Artefacts</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">0</div>
+              <div className="stat-number">{stats.totalBids}</div>
               <div className="stat-label">Total Bids</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">Kshs 0</div>
+              <div className="stat-number">Kshs {stats.totalEarnings?.toLocaleString()}</div>
               <div className="stat-label">Total Earnings</div>
             </div>
           </div>

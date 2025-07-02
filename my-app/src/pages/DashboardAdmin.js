@@ -105,11 +105,20 @@ function DashboardAdmin() {
         <div className="space-x-4">
           <button
             onClick={() => navigate('/admin/profile')}
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+            className="tab-btn"
           >
             Profile
           </button>
-          <button onClick={handleLogout} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+          <button
+            onClick={() => navigate('/admin/users')}
+            className="tab-btn"
+          >
+            Manage Users
+          </button>
+          <button
+            onClick={handleLogout}
+            className="tab-btn"
+          >
             Logout
           </button>
         </div>
@@ -143,21 +152,13 @@ function DashboardAdmin() {
       <div className="flex space-x-4 mb-6">
         <button
           onClick={() => setActiveTab('artefacts')}
-          className={`px-4 py-2 rounded font-medium ${
-            activeTab === 'artefacts'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className={`tab-btn ${activeTab === 'artefacts' ? 'active' : ''}`}
         >
           Pending Artefacts ({pendingArtefacts.length})
         </button>
         <button
           onClick={() => setActiveTab('bids')}
-          className={`px-4 py-2 rounded font-medium ${
-            activeTab === 'bids'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className={`tab-btn ${activeTab === 'bids' ? 'active' : ''}`}
         >
           Pending Bids ({pendingBids.length})
         </button>

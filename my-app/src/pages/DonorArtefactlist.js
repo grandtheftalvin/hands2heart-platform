@@ -22,6 +22,13 @@ function DonorArtefactList() {
 
   return (
     <div className="artefact-page">
+      <button
+        onClick={() => navigate('/dashboard/donor')}
+        className="btn btn-primary"
+        style={{ margin: '1rem 0' }}
+      >
+        Back to Dashboard
+      </button>
       <h1 className="artefact-title">All Available Artefacts</h1>
       <div className="view-bids-button">
         <button onClick={() => navigate('/donor/my-bids')}>View My Bids</button>
@@ -38,7 +45,14 @@ function DonorArtefactList() {
               <h2>{a.title}</h2>
               <p>{a.description}</p>
               <p className="price">Price: Kshs {a.price}</p>
-              <button onClick={() => navigate(`/donor/bid/${a.id}`)}>Place Bid</button>
+              <button
+                onClick={() => navigate(`/donor/bid/${a.id}`)}
+                style={{ background: 'white', color: '#f97316', border: '2px solid #f97316', borderRadius: '8px', padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: '1rem', marginTop: '10px', transition: 'all 0.2s' }}
+                onMouseOver={e => e.target.style.background='#f3f3f3'}
+                onMouseOut={e => e.target.style.background='white'}
+              >
+                Place Bid
+              </button>
             </div>
           </div>
         ))}

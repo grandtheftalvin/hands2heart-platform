@@ -1,9 +1,11 @@
 // File: client/src/pages/InstructorArtefactList.js
 import React, { useEffect, useState } from 'react';
 import './InstructorArtefactList.css';
+import { useNavigate } from 'react-router-dom';
 
 function InstructorArtefactList() {
   const [artefacts, setArtefacts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtefacts = async () => {
@@ -20,6 +22,13 @@ function InstructorArtefactList() {
 
   return (
     <div className="artefact-list-container">
+      <button
+        onClick={() => navigate('/dashboard/instructor')}
+        className="btn btn-primary"
+        style={{ margin: '1rem 0' }}
+      >
+        Back to Dashboard
+      </button>
       <h1 className="artefact-list-title">My Uploaded Artefacts</h1>
       <div className="artefact-grid">
         {artefacts.map((a) => (

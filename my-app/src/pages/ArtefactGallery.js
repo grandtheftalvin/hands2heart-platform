@@ -1,6 +1,7 @@
 // File: client/src/pages/ArtefactGallery.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function ArtefactGallery() {
   const [artefacts, setArtefacts] = useState([]);
@@ -8,6 +9,7 @@ function ArtefactGallery() {
   const [edit, setEdit] = useState(null);
   const [editForm, setEditForm] = useState({ title: '', description: '' });
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtefacts = async () => {
@@ -65,6 +67,13 @@ function ArtefactGallery() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+      <button
+        onClick={() => navigate('/dashboard/admin')}
+        className="btn btn-primary"
+        style={{ margin: '1rem 0' }}
+      >
+        Back to Dashboard
+      </button>
       <h2 className="text-3xl font-bold mb-6 text-center text-blue-800">Available Artefacts</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {artefacts.filter(art => art.is_approved).map(art => (
