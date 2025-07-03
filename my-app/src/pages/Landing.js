@@ -24,11 +24,11 @@ function Landing() {
         </p>
         </div>
         
-     <div className="logo-section">
+         <div className="logo-section">
             <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
-     </div>
+          </div>
+     <h3 className="About-Us">Bidding for A Cause</h3>
       <div className="first-section">
-        <h3 className="About-Us">Bidding for A Cause</h3>
         <img src={specialkid9} alt="Special needs student" className="special-kid-image" />
         <img src={specialkid8} alt="Special needs student" className="special-kid-image" />
         <img src={specialkid7} alt="Special needs student" className="special-kid-image" />

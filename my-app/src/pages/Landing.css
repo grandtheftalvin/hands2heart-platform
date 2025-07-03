@@ -81,6 +81,29 @@
   transform: scale(1.1);
 }
 
+.first-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  
+}
+
+.special-kid-image {
+  width: 23%;
+  height: 200px;
+  max-width: 300px;
+  border-radius: 2rem;
+  object-fit: cover;
+  margin: 1rem auto;
+  transition: transform 0.3s ease;
+}
+
+.special-kid-image:hover {
+  transform: scale(1.05);
+  z-index: 1;
+}
+
 .About-Us{
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -88,7 +111,7 @@
   font-size: 1.25rem;
   line-height: 1.75rem;
   max-width: 80rem;
-  margin: 0 auto 20rem auto;
+  margin: 0 auto 2rem auto;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
