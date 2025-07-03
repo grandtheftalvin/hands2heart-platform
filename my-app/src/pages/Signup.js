@@ -55,8 +55,12 @@ function Signup() {
   <div className="signup-page">
       <ToastContainer />
     <div className="Signup-form-container">
-        <div className="logo-section">
+       {/* <div className="logo-section">
             <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
+        </div>  */}
+        <div className="signup">
+          <h2>Create an account</h2>
+          <p>Already have an account? <span onClick={() => navigate('/login')} style={{ color: '#f97316', cursor: 'pointer' }}>Login</span></p>
         </div>
       <form onSubmit={handleSubmit} className="signup-form">
         <h2>Sign Up</h2>
@@ -112,7 +116,7 @@ function Signup() {
         </select>
         <button type="submit">Sign Up</button>
       </form>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
+     {/*<div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
         <button
           type="button"
           onClick={() => navigate('/login')}
@@ -131,7 +135,7 @@ function Signup() {
         >
           Home
         </button>
-      </div>
+      </div> */}
     </div>
   </div>
   );

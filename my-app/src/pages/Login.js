@@ -51,9 +51,10 @@ function Login() {
       
 
       <div className="login-form-container">
-      <div className="logo-section">
-        <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
-      </div>
+      <div className="login">
+          <h1 className="fline">Welcome back to</h1>
+          <h1 className="sline">Hands2Heart</h1>
+        </div>
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Login</h2>
         <input
@@ -73,11 +74,12 @@ function Login() {
           required
         />
         <button type="submit">Login</button>
-        <a href= "/forgotpassword" className="forgotpassword">
-        forgotpassword?
-        </a>
+        
+        <div className="no-acc">
+            <p>Don't have an account? <span onClick={() => navigate('/signup')} style={{ color: '#f97316', cursor: 'pointer' }}>Sign Up</span></p>
+        </div>
       </form>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
+      {/*<div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
         <button
           type="button"
           onClick={() => navigate('/signup')}
@@ -96,7 +98,8 @@ function Login() {
         >
           Home
         </button>
-      </div>
+      </div> */}
+      
     </div>
     </div>
   );

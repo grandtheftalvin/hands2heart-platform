@@ -11,19 +11,27 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
-.logo-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0.03rem;
+.login {
+  background-color: none;
+  color: white;
+  padding: 0rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  margin: 1rem auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.giving-hand-logo {
-  width: auto;
-  height: 80px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+.fline {
+  font-size: 2rem;
+  color: #ccc;
+}
+
+.sline {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #f97316; 
 }
 
 .login-form-container {
@@ -96,7 +104,28 @@
   box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
 }
 
-.forgotpassword {
+.no-acc {
+  text-align: center;
+  margin-top: 1rem;
+  color: #ccc;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.no-acc span {
+  color: #f97316;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.no-acc span:hover {
+  color: #fb923c; /* Lighter orange on hover */
+  text-decoration: underline;
+}
+
+
+/*.forgotpassword {
   display: block;
   margin-top: 1rem;
   text-align: center;
@@ -105,9 +134,9 @@
   font-size: 1rem;
   font-weight: 500;
   transition: color 0.3s ease;
-}
+} I decided to make this into a comment just in case it will ever be needed 
 
 .forgotpassword:hover {
   color: #ea580c;
   text-decoration: underline;
-}
+} */
