@@ -27,29 +27,71 @@ function Landing() {
          <div className="logo-section">
             <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
           </div>
-     <h3 className="About-Us">About Us</h3>
-      <div className="first-section">
-        <img src={specialkid9} alt="Special needs student" className="special-kid-image" />
-        <p className="first-section-text">
-          Hands2Heart is a platform that gives visibility to beautiful handicrafts made by children with special needs.
-          These talented learners often lack access to markets due to limited exposure — we help bridge that gap.
-          By showcasing their work, we connect them with buyers, donors, and supporters who believe in creativity, inclusion, and impact.
-        </p>
+
+        <div className="About-Us">
+          <h3 className="About-Us-Heading">About Us</h3>
+
+          <div className="About-Us-Content">
+            <div className="first-section">
+              <img src={specialkid9} alt="Special needs student" className="special-kid-image" />
+            </div>
+              <div className="first-section-text">
+                <p>
+                  Hands2Heart is a platform that gives visibility to beautiful handicrafts made by children with special needs.
+                  These talented learners often lack access to markets due to limited exposure — we help bridge that gap.
+                  By showcasing their work, we connect them with buyers, donors, and supporters who believe in creativity, inclusion, and impact.
+                </p>
+              </div> 
+            
+          </div>   
+        </div>
           
-      </div>
+      
       
 
       <div className="logo-section">
             <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
      </div>
 
-      <h3 className="About-Us">How it works</h3>
+      <div className="About-Us">
+          <h3 className="About-Us-Heading">How it works</h3>
+
+          <div className="About-Us-Content">
+              <div className="first-section-text">
+                <p>
+                  Hands2Heart is a platform that gives visibility to beautiful handicrafts made by children with special needs.
+                  These talented learners often lack access to markets due to limited exposure — we help bridge that gap.
+                  By showcasing their work, we connect them with buyers, donors, and supporters who believe in creativity, inclusion, and impact.
+                </p>
+              </div> 
+              <div className="first-section">
+              <img src={specialkid8} alt="Special needs student" className="special-kid-image" />
+            </div>
+          </div>   
+        </div>
+      
 
       <div className="logo-section">
             <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />
      </div>
 
-      <h3 className="About-Us">The Change it Makes</h3>
+      <div className="About-Us">
+        <div className="About-Us-Content">
+          <h3 className="About-Us-Heading">The Change it Makes</h3>
+            <div className="first-section">
+              <img src={specialkid7} alt="Special needs student" className="special-kid-image" />
+            </div>
+          
+              <div className="first-section-text">
+                <p>
+                  Hands2Heart is a platform that gives visibility to beautiful handicrafts made by children with special needs.
+                  These talented learners often lack access to markets due to limited exposure — we help bridge that gap.
+                  By showcasing their work, we connect them with buyers, donors, and supporters who believe in creativity, inclusion, and impact.
+                </p>
+              </div> 
+              
+        </div>   
+      </div>
       
         
       </main>
