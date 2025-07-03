@@ -7,8 +7,7 @@ function Navbar() {
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">Hands2Heart</Link>
         <div className="navbar-menu">
-          <Link to="/donate" className="navbar-link">Home</Link>
-          <Link to="/AboutUs" className="navbar-link">About</Link>
+          <Link to="/AboutUs" className="navbar-link">About Us</Link>
           <Link to="/contact" className="navbar-link">Contact</Link>
           <Link to="/donate" className="navbar-link">Donate</Link>
         </div>
