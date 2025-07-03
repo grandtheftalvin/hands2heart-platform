@@ -101,7 +101,7 @@ function Landing() {
         
       </main>
       
-      <Footer />
+      <Footer id = "contact"/>
     </div>
   );
 }

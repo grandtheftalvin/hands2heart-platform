@@ -7,8 +7,24 @@ function Navbar() {
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">Hands2Heart</Link>
         <div className="navbar-menu">
-          <Link to="/AboutUs" className="navbar-link">About Us</Link>
-          <Link to="/contact" className="navbar-link">Contact</Link>
+          <span
+            className="navbar-link"
+            onClick={() => {
+                document.getElementById('about-us')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              About Us
+          </span>
+
+          <span
+            className="navbar-link"
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            Contact
+          </span>
+
           <Link to="/donate" className="navbar-link">Donate</Link>
         </div>
         <div className="navbar-links">
