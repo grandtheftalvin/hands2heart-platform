@@ -48,9 +48,7 @@ function Login() {
   return (
     <div className="login-page">
       <ToastContainer />
-       <div className="login-image">
-      <img src={Loginimage} alt="Login" className="login-image"/>
-      </div>
+      
 
       <div className="login-form-container">
       <div className="logo-section">

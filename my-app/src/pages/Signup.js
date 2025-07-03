@@ -54,9 +54,6 @@ function Signup() {
   return (
   <div className="signup-page">
       <ToastContainer />
-      <div className="login-image">
-        <img src={Loginimage} alt="Log in image" className="log-in-image"/>
-      </div>
     <div className="Signup-form-container">
         <div className="logo-section">
             <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" />

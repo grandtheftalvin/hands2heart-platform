@@ -3,41 +3,12 @@
 .signup-page {
   height: 150vh;
   width: 100vw;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  background: linear-gradient(180deg, #151515 0%, #0a0a0a 50%, #000000 100%);
+  /*background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%); */
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.login-image {
-  width: 50vw;
-  flex: 1;
-  height: 150vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.login-image::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(249, 115, 22, 0.2);
-  z-index: 1;
-}
-
-.login-image img {
-  width: 100%;
-  height: 100vh;
-  object-fit: contain;
-  display: block;
-  position: relative;
-  z-index: 0;
 }
 
 .logo-section {
