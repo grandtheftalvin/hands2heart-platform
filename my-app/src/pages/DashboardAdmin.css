@@ -317,3 +317,12 @@
   color: white;
   border: 2px solid #2563eb;
 }
+
+.universal-artefact-image {
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+  background: #f3f3f3 !important;
+  display: block;
+}

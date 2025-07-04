@@ -174,7 +174,7 @@ function DashboardAdmin() {
             <div className="artefact-grid">
               {pendingArtefacts.map((a) => (
                 <div key={a.id} className="artefact-card">
-                  <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} />
+                  <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} className="artefact-image universal-artefact-image" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px', background: '#f3f3f3' }} onError={e => { e.target.onerror = null; e.target.src = '/default-artefact.png'; }} />
                   <div className="card-content">
                     <h2>{a.title}</h2>
                     <p>{a.description}</p>

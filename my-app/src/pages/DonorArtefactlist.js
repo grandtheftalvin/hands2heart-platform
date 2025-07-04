@@ -39,7 +39,9 @@ function DonorArtefactList() {
             <img
               src={`http://localhost:5000/uploads/${a.image_url}`}
               alt={a.title}
-              className="artefact-image"
+              className="artefact-image universal-artefact-image"
+              style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px', background: '#f3f3f3' }}
+              onError={e => { e.target.onerror = null; e.target.src = '/default-artefact.png'; }}
             />
             <div className="artefact-content">
               <h2>{a.title}</h2>
