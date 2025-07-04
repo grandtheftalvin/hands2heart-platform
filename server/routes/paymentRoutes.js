@@ -281,4 +281,11 @@ router.post('/donate', async (req, res) => {
   }
 });
 
+// POST /api/payments/callback - Handle M-Pesa payment callbacks
+router.post('/callback', (req, res) => {
+  console.log('M-Pesa callback received:', req.body);
+  // TODO: Add logic to update payment status in the database if needed
+  res.status(200).send('Callback received');
+});
+
 module.exports = router;

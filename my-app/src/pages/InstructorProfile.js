@@ -10,7 +10,6 @@ function InstructorProfile() {
     name: '',
     email: '',
     phone: '',
-    address: '',
     specialization: ''
   });
   const [loading, setLoading] = useState(true);
@@ -33,7 +32,6 @@ function InstructorProfile() {
           name: userData.name || '',
           email: userData.email || '',
           phone: userData.phone || '',
-          address: userData.address || '',
           specialization: userData.specialization || ''
         });
         setLoading(false);
@@ -50,7 +48,6 @@ function InstructorProfile() {
           name: userProfile.name || '',
           email: userProfile.email || '',
           phone: userProfile.phone || '',
-          address: userProfile.address || '',
           specialization: userProfile.specialization || ''
         });
       } else {
@@ -169,17 +166,26 @@ function InstructorProfile() {
       </div>
 
       {message && (
-        <div className={`message ${message.includes('successfully') ? 'success' : 'error'}`}>
+        <div className={`message ${message.includes('successfully') || message.includes('updated') ? 'success' : 'error'}`}>
           {message}
         </div>
       )}
 
       <div className="profile-content">
         <div className="profile-card">
-          <div className="profile-avatar">
-            <div className="avatar-placeholder">
-              {user?.name?.charAt(0).toUpperCase() || 'U'}
-            </div>
+          <div className="profile-avatar" style={{ width: 100, height: 100 }}>
+            {user?.profile_photo_url ? (
+              <img
+                src={user.profile_photo_url}
+                alt="Profile"
+                className="avatar-img"
+                style={{ width: 100, height: 100, borderRadius: '50%', objectFit: 'cover', display: 'block' }}
+              />
+            ) : (
+              <div className="avatar-placeholder" style={{ width: 100, height: 100, borderRadius: '50%', background: '#f97316', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40 }}>
+                {user?.name?.charAt(0).toUpperCase() || 'U'}
+              </div>
+            )}
           </div>
 
           {!isEditing ? (
@@ -197,12 +203,8 @@ function InstructorProfile() {
                 <span>{user?.phone || 'Not provided'}</span>
               </div>
               <div className="info-group">
-                <label>Address:</label>
-                <span>{user?.address || 'Not provided'}</span>
-              </div>
-              <div className="info-group">
                 <label>Specialization:</label>
-                <span>{user?.specialization || 'Not specified'}</span>
+                <span>{user?.specialization || 'Not provided'}</span>
               </div>
               <div className="info-group">
                 <label>Member Since:</label>
@@ -223,65 +225,21 @@ function InstructorProfile() {
           ) : (
             <form onSubmit={handleSubmit} className="profile-form">
               <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
+                <label>Name:</label>
+                <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
               </div>
-              
               <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                />
+                <label>Email:</label>
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
               </div>
-              
               <div className="form-group">
-                <label htmlFor="phone">Phone Number</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="254 700 000 000"
-                />
+                <label>Phone:</label>
+                <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
               </div>
-              
               <div className="form-group">
-                <label htmlFor="address">Address</label>
-                <textarea
-                  id="address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  rows="3"
-                  placeholder="Enter your address"
-                />
+                <label>Specialization:</label>
+                <input type="text" name="specialization" value={formData.specialization} onChange={handleInputChange} />
               </div>
-              
-              <div className="form-group">
-                <label htmlFor="specialization">Specialization</label>
-                <input
-                  type="text"
-                  id="specialization"
-                  name="specialization"
-                  value={formData.specialization}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Pottery, Weaving, Woodwork"
-                />
-              </div>
-              
               <div className="form-actions">
                 <button
                   type="button"
