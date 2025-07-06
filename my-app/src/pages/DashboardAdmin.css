@@ -2,7 +2,8 @@
 .admin-dashboard {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  background: linear-gradient(180deg, #151515 0%, #0a0a0a 50%, #000000 100%);
+  /*background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%); */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
 }
@@ -84,6 +85,7 @@
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  
 }
 
 .bids-grid {
@@ -270,7 +272,8 @@
   text-align: center;
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  /*background: rgba(255, 255, 255, 0.1); */
   backdrop-filter: blur(10px);
   padding: 2rem;
   border-radius: 1rem;
@@ -300,9 +303,9 @@
 }
 
 .tab-btn {
-  background: white;
-  color: #f97316;
-  border: 2px solid #f97316;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  color: white;
+  border: none; 
   font-weight: 600;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
@@ -310,10 +313,14 @@
   transition: all 0.2s;
 }
 .tab-btn:hover {
-  background: #f3f3f3;
+  background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+  /*background: #f3f3f3; */
 }
 .tab-btn.active {
-  background: #2563eb;
+  background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+  /*background: #2563eb;*/
   color: white;
-  border: 2px solid #2563eb;
+  border: none;
 }

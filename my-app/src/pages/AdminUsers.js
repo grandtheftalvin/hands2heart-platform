@@ -38,10 +38,10 @@ function AdminUsers() {
   };
 
   return (
-    <div style={{ padding: '2rem', background: '#fff', borderRadius: '12px', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', maxWidth: '1200px', margin: '2rem auto' }}>
+    <div style={{ padding: '2rem', background: 'linear-gradient(180deg, #151515 0%, #0a0a0a 50%, #000000 100%)',  borderRadius: '12px', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', maxWidth: '1200px', margin: '2rem auto' }}>
       <button
         onClick={() => navigate('/admin/profile')}
-        style={{ marginBottom: '1rem', background: '#f97316', color: 'white', border: 'none', borderRadius: '6px', padding: '8px 20px', fontWeight: 600, cursor: 'pointer' }}
+        style={{ marginBottom: '1rem', background: 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%)', color: 'white', border: 'none', borderRadius: '6px', padding: '8px 20px', fontWeight: 600, cursor: 'pointer' }}
       >
         Back to Profile
       </button>
@@ -56,7 +56,7 @@ function AdminUsers() {
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '1.1rem', background: 'white', color: '#222', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
             <thead>
-              <tr style={{ background: '#f97316', color: 'white' }}>
+              <tr style={{ background: 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%)', color: 'white' }}>
                 <th style={{ padding: '16px', border: '1px solid #eee', fontWeight: 700 }}>Name</th>
                 <th style={{ padding: '16px', border: '1px solid #eee', fontWeight: 700 }}>Email</th>
                 <th style={{ padding: '16px', border: '1px solid #eee', fontWeight: 700 }}>Role</th>
@@ -74,7 +74,7 @@ function AdminUsers() {
                   <td style={{ padding: '14px', border: '1px solid #eee' }}>
                     <button
                       onClick={() => handleDelete(user.id)}
-                      style={{ background: '#dc2626', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 18px', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }}
+                      style={{ background: 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%)', color: 'white', border: 'none', borderRadius: '4px', padding: '8px 18px', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }}
                     >
                       Delete
                     </button>
