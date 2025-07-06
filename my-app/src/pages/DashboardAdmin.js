@@ -110,7 +110,7 @@ function DashboardAdmin() {
       {/* Sidebar */}
       <div className="admin-sidebar" style={{ 
         width: '250px', 
-        background: 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)', 
+        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%)',
         color: 'white', 
         padding: '20px 0',
         display: 'flex',
