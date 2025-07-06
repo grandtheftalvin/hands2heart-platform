@@ -13,18 +13,32 @@ const bidRoutes = require('./routes/bidRoutes');
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true
+}));
 app.use(express.json());
 
-// Serve static files from uploads directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Add logging middleware for image requests
+console.log("STATIC MIDDLEWARE ACTIVE")
+app.use('/uploads', (req, res, next) => {
+  console.log(`Image request: ${req.method} ${req.url}`);
+  next();
+});
+
+// Serve static files from uploads directory with proper headers
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+  setHeaders: (res, path) => {
+    res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.set('Access-Control-Allow-Origin', '*');
+  }
+}));
 
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/artefacts', artefactRoutes);
 app.use('/api/bids', bidRoutes);
 app.use('/api/payments', paymentRoutes);
-app.use('/api/pay', paymentRoutes);
 
 // Default route (optional)
 app.get('/', (req, res) => {

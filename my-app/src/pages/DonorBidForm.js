@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/auth';
+import ArtefactImage from '../components/ArtefactImage';
 import './DonorBidForm.css';
 
 function DonorBidForm() {
@@ -140,10 +141,11 @@ function DonorBidForm() {
         <p>{artefact.description}</p>
         <p className="price">Suggested Price: Kshs {artefact.price}</p>
         {artefact.image_url && (
-          <img 
-            src={`http://localhost:5000/uploads/${artefact.image_url}`}
-            alt={artefact.title}
-            className="artefact-image"
+          <ArtefactImage 
+            imageUrl={artefact.image_url}
+            title={artefact.title}
+            dimensions={{ width: '100%', maxWidth: '400px', height: '250px' }}
+            showContainer={false}
           />
         )}
       </div>

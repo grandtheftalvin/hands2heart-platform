@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "dev": "concurrently \"npm run server\" \"cd my-app && npm start\"",
+    "client": "cd my-app && npm start"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +26,10 @@
     "multer": "^2.0.1",
     "mysql2": "^3.14.1",
     "nodemailer": "^7.0.4",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

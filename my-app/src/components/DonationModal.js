@@ -30,12 +30,8 @@ function DonationModal({ onClose }) {
       const data = await response.json();
       if (response.ok) {
         setStep(2);
-        setTimeout(() => {
-          setStep(3);
-          setTimeout(() => {
-            onClose();
-          }, 2000);
-        }, 3000);
+        // Don't automatically show success - wait for user to complete M-Pesa transaction
+        // The success will be determined by the callback or user action
       } else {
         setError(data.message || 'Donation failed');
         setLoading(false);
@@ -44,6 +40,13 @@ function DonationModal({ onClose }) {
       setError('Network error. Please try again.');
       setLoading(false);
     }
+  };
+
+  const handleCompleteTransaction = () => {
+    setStep(3);
+    setTimeout(() => {
+      onClose();
+    }, 3000);
   };
 
   return (
@@ -107,8 +110,27 @@ function DonationModal({ onClose }) {
               <div className="processing-animation">
                 <div className="spinner"></div>
               </div>
-              <h3>Processing Donation...</h3>
-              <p>Please check your phone for the M-Pesa prompt and enter your PIN.</p>
+              <h3>STK Push Sent!</h3>
+              <p>Please check your phone for the M-Pesa prompt and enter your PIN to complete the donation.</p>
+              <div className="processing-tips">
+                <p>💡 Make sure your phone has network coverage</p>
+                <p>💡 Enter your M-Pesa PIN when prompted</p>
+                <p>💡 You'll receive a confirmation SMS once payment is complete</p>
+              </div>
+              <div className="payment-actions" style={{ marginTop: '20px' }}>
+                <button
+                  onClick={onClose}
+                  className="btn btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCompleteTransaction}
+                  className="btn btn-success"
+                >
+                  I've Completed the Payment
+                </button>
+              </div>
             </div>
           )}
           {step === 3 && (
@@ -116,6 +138,7 @@ function DonationModal({ onClose }) {
               <div className="success-icon">✓</div>
               <h3>Donation Successful!</h3>
               <p>Thank you for your support!</p>
+              <p>You will receive a confirmation SMS shortly.</p>
             </div>
           )}
         </div>

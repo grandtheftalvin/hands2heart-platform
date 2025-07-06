@@ -1,7 +1,8 @@
 // File: client/src/pages/InstructorArtefactList.js
 import React, { useEffect, useState } from 'react';
-import './InstructorArtefactList.css';
 import { useNavigate } from 'react-router-dom';
+import ArtefactImage from '../components/ArtefactImage';
+import './InstructorArtefactList.css';
 
 function InstructorArtefactList() {
   const [artefacts, setArtefacts] = useState([]);
@@ -33,16 +34,18 @@ function InstructorArtefactList() {
       <div className="artefact-grid">
         {artefacts.map((a) => (
           <div key={a.id} className="artefact-card">
-            <img
-              src={`http://localhost:5000/uploads/${a.image_url}`}
-              alt={a.title}
-              className="artefact-image"
+            <ArtefactImage 
+              imageUrl={a.image_url}
+              title={a.title}
+              dimensions={{ width: '100%', height: '250px' }}
             />
-            <h2>{a.title}</h2>
-            <p>{a.description}</p>
-            <p className="price">Price: Kshs{a.price}</p>
-            <p>Status: {a.status}</p>
-            <p>Stock: {a.stock_status}</p>
+            <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <h2>{a.title}</h2>
+              <p>{a.description}</p>
+              <p className="price">Price: Kshs{a.price}</p>
+              <p>Status: {a.status}</p>
+              <p>Stock: {a.stock_status}</p>
+            </div>
           </div>
         ))}
       </div>

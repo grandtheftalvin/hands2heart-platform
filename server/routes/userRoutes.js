@@ -6,6 +6,9 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const supabase = require('../utils/supabase');
 const router = express.Router();
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
 // Setup email transporter
 const transporter = nodemailer.createTransport({
@@ -15,6 +18,18 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
+
+// Set up multer for disk storage (for profile photos)
+const diskStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads/'));
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    cb(null, req.params.id + '_' + Date.now() + ext);
+  }
+});
+const uploadProfilePhoto = multer({ storage: diskStorage });
 
 // User Signup
 router.post('/signup', async (req, res) => {
@@ -171,7 +186,7 @@ router.get('/:id', async (req, res) => {
   try {
     const { data: user, error } = await supabase
       .from('users')
-      .select('id, name, email, phone, address, specialization, role, created_at, is_verified')
+      .select('id, name, email, phone, specialization, role, created_at, is_verified, profile_photo_url')
       .eq('id', id)
       .single();
 
@@ -189,9 +204,13 @@ router.get('/:id', async (req, res) => {
 // PUT /api/users/:id - Update user profile
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { name, email, phone, address, specialization } = req.body;
+  const { name, email, phone, specialization } = req.body;
 
   try {
+    console.log('--- UPDATE USER REQUEST ---');
+    console.log('User ID:', id);
+    console.log('Request body:', req.body);
+
     // Check if email is already taken by another user
     if (email) {
       const { data: existingUser } = await supabase
@@ -202,6 +221,7 @@ router.put('/:id', async (req, res) => {
         .single();
 
       if (existingUser) {
+        console.log('Email already exists for another user.');
         return res.status(400).json({ message: 'Email already exists' });
       }
     }
@@ -210,27 +230,28 @@ router.put('/:id', async (req, res) => {
       name: name || null,
       email: email || null,
       phone: phone || null,
-      address: address || null,
       specialization: specialization || null,
       updated_at: new Date().toISOString()
     };
+    console.log('Update data to send to Supabase:', updateData);
 
     const { data, error } = await supabase
       .from('users')
       .update(updateData)
       .eq('id', id)
-      .select('id, name, email, phone, address, specialization, role, created_at, is_verified')
+      .select('id, name, email, phone, specialization, role, created_at, is_verified')
       .single();
 
     if (error) {
-      console.error('Error updating user:', error);
-      return res.status(500).json({ message: 'Failed to update profile' });
+      console.error('Error updating user (from Supabase):', JSON.stringify(error, null, 2));
+      return res.status(500).json({ message: 'Failed to update profile', error: error });
     }
 
+    console.log('Update successful. Updated user:', data);
     res.json(data);
   } catch (error) {
-    console.error('Error updating user:', error);
-    res.status(500).json({ message: 'Failed to update profile' });
+    console.error('Error updating user (catch block):', JSON.stringify(error, null, 2));
+    res.status(500).json({ message: 'Failed to update profile', error: error });
   }
 });
 
@@ -269,6 +290,29 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
     console.error('Error deleting user:', error);
     res.status(500).json({ message: 'Failed to delete user' });
+  }
+});
+
+// POST /api/users/:id/profile-photo - Upload user profile photo (local upload)
+router.post('/:id/profile-photo', uploadProfilePhoto.single('photo'), async (req, res) => {
+  const { id } = req.params;
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+  try {
+    // Save local file path as profile_photo_url
+    const profilePhotoUrl = `/uploads/${req.file.filename}`;
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ profile_photo_url: profilePhotoUrl })
+      .eq('id', id);
+    if (updateError) {
+      return res.status(500).json({ message: 'Failed to update user profile', error: updateError });
+    }
+    res.json({ profile_photo_url: profilePhotoUrl });
+  } catch (err) {
+    console.error('Profile photo upload error:', err);
+    res.status(500).json({ message: 'Server error during profile photo upload' });
   }
 });
 

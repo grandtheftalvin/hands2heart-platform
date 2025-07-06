@@ -324,3 +324,32 @@
   color: white;
   border: none;
 }
+
+.universal-artefact-image {
+  width: 100% !important;
+  height: 250px !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
+  background: #f3f3f3 !important;
+  display: block !important;
+}
+
+/* Image container for consistent dimensions */
+.artefact-image-container {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+  background: #f3f3f3;
+}
+
+.artefact-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.artefact-card:hover .artefact-image {
+  transform: scale(1.05);
+}

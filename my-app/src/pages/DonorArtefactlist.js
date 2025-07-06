@@ -1,24 +1,77 @@
 // File: client/src/pages/DonorArtefactList.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ArtefactImage from '../components/ArtefactImage';
 import './DonorArtefactList.css';
 
 function DonorArtefactList() {
   const [artefacts, setArtefacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtefacts = async () => {
       try {
+        setLoading(true);
         const res = await fetch('http://localhost:5000/api/artefacts?status=approved&stock=in_stock');
+        if (!res.ok) {
+          throw new Error('Failed to fetch artefacts');
+        }
         const data = await res.json();
         setArtefacts(data);
       } catch (error) {
         console.error('Failed to fetch artefacts:', error);
+        setError('Failed to load artefacts. Please try again.');
+      } finally {
+        setLoading(false);
       }
     };
     fetchArtefacts();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="artefact-page">
+        <button
+          onClick={() => navigate('/dashboard/donor')}
+          className="btn btn-primary"
+          style={{ margin: '1rem 0' }}
+        >
+          Back to Dashboard
+        </button>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <h2>Loading Artefacts...</h2>
+          <p>Please wait while we fetch the available artefacts.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="artefact-page">
+        <button
+          onClick={() => navigate('/dashboard/donor')}
+          className="btn btn-primary"
+          style={{ margin: '1rem 0' }}
+        >
+          Back to Dashboard
+        </button>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <h2>Error Loading Artefacts</h2>
+          <p>{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="btn btn-primary"
+            style={{ marginTop: '1rem' }}
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="artefact-page">
@@ -33,30 +86,39 @@ function DonorArtefactList() {
       <div className="view-bids-button">
         <button onClick={() => navigate('/donor/my-bids')}>View My Bids</button>
       </div>
-      <div className="artefact-grid">
-        {artefacts.map((a) => (
-          <div key={a.id} className="artefact-card">
-            <img
-              src={`http://localhost:5000/uploads/${a.image_url}`}
-              alt={a.title}
-              className="artefact-image"
-            />
-            <div className="artefact-content">
-              <h2>{a.title}</h2>
-              <p>{a.description}</p>
-              <p className="price">Price: Kshs {a.price}</p>
-              <button
-                onClick={() => navigate(`/donor/bid/${a.id}`)}
-                style={{ background: 'white', color: '#f97316', border: '2px solid #f97316', borderRadius: '8px', padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: '1rem', marginTop: '10px', transition: 'all 0.2s' }}
-                onMouseOver={e => e.target.style.background='#f3f3f3'}
-                onMouseOut={e => e.target.style.background='white'}
-              >
-                Place Bid
-              </button>
+      
+      {artefacts.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <h2>No Artefacts Available</h2>
+          <p>There are currently no approved artefacts available for bidding.</p>
+          <p>Please check back later!</p>
+        </div>
+      ) : (
+        <div className="artefact-grid">
+          {artefacts.map((a) => (
+            <div key={a.id} className="artefact-card">
+              <ArtefactImage 
+                imageUrl={a.image_url}
+                title={a.title}
+                dimensions={{ width: '100%', height: '250px' }}
+              />
+              <div className="artefact-content">
+                <h2>{a.title}</h2>
+                <p>{a.description}</p>
+                <p className="price">Price: Kshs {a.price}</p>
+                <button
+                  onClick={() => navigate(`/donor/bid/${a.id}`)}
+                  style={{ background: 'white', color: '#f97316', border: '2px solid #f97316', borderRadius: '8px', padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: '1rem', marginTop: '10px', transition: 'all 0.2s' }}
+                  onMouseOver={e => e.target.style.background='#f3f3f3'}
+                  onMouseOut={e => e.target.style.background='white'}
+                >
+                  Place Bid
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

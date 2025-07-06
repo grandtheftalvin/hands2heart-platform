@@ -9,8 +9,7 @@ function DonorProfile() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
-    address: ''
+    phone: ''
   });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
@@ -24,38 +23,29 @@ function DonorProfile() {
         navigate('/login');
         return;
       }
-
-      // First try to get from localStorage
       if (userData.name && userData.email) {
         setUser(userData);
         setFormData({
           name: userData.name || '',
           email: userData.email || '',
-          phone: userData.phone || '',
-          address: userData.address || ''
+          phone: userData.phone || ''
         });
         setLoading(false);
         return;
       }
-
-      // If not in localStorage, fetch from API
       const response = await fetch(`http://localhost:5000/api/users/${userData.id}`);
-
       if (response.ok) {
         const userProfile = await response.json();
         setUser(userProfile);
         setFormData({
           name: userProfile.name || '',
           email: userProfile.email || '',
-          phone: userProfile.phone || '',
-          address: userProfile.address || ''
+          phone: userProfile.phone || ''
         });
       } else {
-        console.error('Failed to fetch user profile');
         setMessage('Failed to load profile data');
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error);
       setMessage('Error loading profile data');
     } finally {
       setLoading(false);
@@ -166,17 +156,26 @@ function DonorProfile() {
       </div>
 
       {message && (
-        <div className={`message ${message.includes('successfully') ? 'success' : 'error'}`}>
+        <div className={`message ${message.includes('successfully') || message.includes('updated') ? 'success' : 'error'}`}>
           {message}
         </div>
       )}
 
       <div className="profile-content">
         <div className="profile-card">
-          <div className="profile-avatar">
-            <div className="avatar-placeholder">
-              {user?.name?.charAt(0).toUpperCase() || 'U'}
-            </div>
+          <div className="profile-avatar" style={{ width: 100, height: 100 }}>
+            {user?.profile_photo_url ? (
+              <img
+                src={user.profile_photo_url}
+                alt="Profile"
+                className="avatar-img"
+                style={{ width: 100, height: 100, borderRadius: '50%', objectFit: 'cover', display: 'block' }}
+              />
+            ) : (
+              <div className="avatar-placeholder" style={{ width: 100, height: 100, borderRadius: '50%', background: '#f97316', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40 }}>
+                {user?.name?.charAt(0).toUpperCase() || 'U'}
+              </div>
+            )}
           </div>
 
           {!isEditing ? (
@@ -192,10 +191,6 @@ function DonorProfile() {
               <div className="info-group">
                 <label>Phone:</label>
                 <span>{user?.phone || 'Not provided'}</span>
-              </div>
-              <div className="info-group">
-                <label>Address:</label>
-                <span>{user?.address || 'Not provided'}</span>
               </div>
               <div className="info-group">
                 <label>Member Since:</label>
@@ -216,53 +211,17 @@ function DonorProfile() {
           ) : (
             <form onSubmit={handleSubmit} className="profile-form">
               <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
+                <label>Name:</label>
+                <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
               </div>
-              
               <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                />
+                <label>Email:</label>
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
               </div>
-              
               <div className="form-group">
-                <label htmlFor="phone">Phone Number</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="254 700 000 000"
-                />
+                <label>Phone:</label>
+                <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
               </div>
-              
-              <div className="form-group">
-                <label htmlFor="address">Address</label>
-                <textarea
-                  id="address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  rows="3"
-                  placeholder="Enter your address"
-                />
-              </div>
-              
               <div className="form-actions">
                 <button
                   type="button"
