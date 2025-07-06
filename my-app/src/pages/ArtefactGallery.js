@@ -78,7 +78,7 @@ function ArtefactGallery() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {artefacts.filter(art => art.is_approved).map(art => (
           <div key={art.id} className="border border-gray-300 bg-white p-4 rounded shadow-md">
-            <img src={`http://localhost:5000/uploads/${art.image}`} alt={art.title} className="w-full h-48 object-cover rounded mb-3" />
+            <img src={`http://localhost:5000/uploads/${art.image_url}`} alt={art.title} className="w-full h-48 object-cover rounded mb-3" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px', background: '#f3f3f3' }} onError={e => { e.target.onerror = null; e.target.src = '/default-artefact.png'; }} />
             {edit === art.id ? (
               <>
                 <input

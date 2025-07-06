@@ -279,7 +279,7 @@ function DashboardDonor() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
           {artefacts.map((a) => (
             <div key={a.id} style={{ minWidth: 220, maxWidth: 300, width: '100%', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.07)', border: '1px solid #ececec', color: '#222', margin: '0 0.5rem', flex: '1 1 220px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, borderRadius: 12 }}>
-              <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: 8, background: '#f3f3f3', marginBottom: 12 }} />
+              <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: 8, background: '#f3f3f3', marginBottom: 12 }} onError={e => { e.target.onerror = null; e.target.src = '/default-artefact.png'; }} />
               <h3 style={{ color: '#f97316', fontWeight: 700 }}>{a.title}</h3>
               <p style={{ color: '#333', fontSize: '1rem' }}>{a.description}</p>
               <p style={{ color: '#ea580c', fontWeight: 600 }}>Price: Kshs {a.price}</p>

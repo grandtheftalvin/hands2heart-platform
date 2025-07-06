@@ -144,6 +144,8 @@ function DonorBidForm() {
             src={`http://localhost:5000/uploads/${artefact.image_url}`}
             alt={artefact.title}
             className="artefact-image"
+            style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px', background: '#f3f3f3' }}
+            onError={e => { e.target.onerror = null; e.target.src = '/default-artefact.png'; }}
           />
         )}
       </div>
