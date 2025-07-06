@@ -24,7 +24,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/artefacts', artefactRoutes);
 app.use('/api/bids', bidRoutes);
 app.use('/api/payments', paymentRoutes);
-app.use('/api/pay', paymentRoutes);
 
 // Default route (optional)
 app.get('/', (req, res) => {

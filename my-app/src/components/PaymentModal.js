@@ -38,15 +38,10 @@ function PaymentModal({ bid, onClose, onSuccess }) {
 
       if (response.ok) {
         setStep(2);
-        // Simulate payment processing
-        setTimeout(() => {
-          setStep(3);
-          setTimeout(() => {
-            onSuccess();
-          }, 2000);
-        }, 3000);
+        // Don't automatically show success - wait for user to complete M-Pesa transaction
+        // The success will be determined by the callback or user action
       } else {
-        setError(data.message || 'Payment initiation failed');
+        setError(data.message || data.error || 'Payment initiation failed');
         setLoading(false);
       }
     } catch (error) {
@@ -70,6 +65,13 @@ function PaymentModal({ bid, onClose, onSuccess }) {
     if (cleaned.length <= 6) return `${cleaned.slice(0, 3)} ${cleaned.slice(3)}`;
     if (cleaned.length <= 9) return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6)}`;
     return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6, 9)} ${cleaned.slice(9, 12)}`;
+  };
+
+  const handleCompleteTransaction = () => {
+    setStep(3);
+    setTimeout(() => {
+      onSuccess();
+    }, 3000);
   };
 
   return (
@@ -150,12 +152,27 @@ function PaymentModal({ bid, onClose, onSuccess }) {
               <div className="processing-animation">
                 <div className="spinner"></div>
               </div>
-              <h3>Processing Payment...</h3>
-              <p>Please check your phone for the M-Pesa prompt and enter your PIN.</p>
+              <h3>STK Push Sent!</h3>
+              <p>Please check your phone for the M-Pesa prompt and enter your PIN to complete the payment.</p>
               <div className="processing-tips">
                 <p>💡 Make sure your phone has network coverage</p>
                 <p>💡 Keep this window open until payment is complete</p>
                 <p>💡 Enter your M-Pesa PIN when prompted</p>
+                <p>💡 You'll receive a confirmation SMS once payment is complete</p>
+              </div>
+              <div className="payment-actions" style={{ marginTop: '20px' }}>
+                <button
+                  onClick={onClose}
+                  className="btn btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCompleteTransaction}
+                  className="btn btn-success"
+                >
+                  I've Completed the Payment
+                </button>
               </div>
             </div>
           )}
@@ -163,11 +180,11 @@ function PaymentModal({ bid, onClose, onSuccess }) {
           {step === 3 && (
             <div className="success-step">
               <div className="success-icon">✓</div>
-              <h3>Payment Successful!</h3>
-              <p>Your payment has been processed successfully.</p>
+              <h3>Payment Completed!</h3>
+              <p>Thank you for completing your payment.</p>
               <p>You will receive a confirmation SMS shortly.</p>
               <button
-                onClick={onSuccess}
+                onClick={handleCompleteTransaction}
                 className="btn btn-primary"
               >
                 Continue
