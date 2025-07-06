@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ArtefactImage from '../components/ArtefactImage';
 import './DashboardAdmin.css';
 import { getUser } from '../utils/auth';
 
@@ -324,7 +325,11 @@ function DashboardAdmin() {
                   <div className="artefact-grid">
                     {pendingArtefacts.map((a) => (
                       <div key={a.id} className="artefact-card" style={{ background: '#fff', border: '1px solid #ececec', boxShadow: '0 2px 8px rgba(0,0,0,0.07)', color: '#222' }}>
-                        <img src={`http://localhost:5000/uploads/${a.image_url}`} alt={a.title} className="artefact-image universal-artefact-image" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px', background: '#f3f3f3' }} onError={e => { e.target.onerror = null; e.target.src = '/default-artefact.png'; }} />
+                        <ArtefactImage 
+                          imageUrl={a.image_url}
+                          title={a.title}
+                          dimensions={{ width: '100%', height: '250px' }}
+                        />
                         <div className="card-content">
                           <h2 style={{ color: '#f97316', fontWeight: 700 }}>{a.title}</h2>
                           <p style={{ color: '#333' }}>{a.description}</p>

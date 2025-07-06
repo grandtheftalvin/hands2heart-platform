@@ -1,6 +1,7 @@
 // File: client/src/pages/DonorArtefactList.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ArtefactImage from '../components/ArtefactImage';
 import './DonorArtefactList.css';
 
 function DonorArtefactList() {
@@ -96,12 +97,10 @@ function DonorArtefactList() {
         <div className="artefact-grid">
           {artefacts.map((a) => (
             <div key={a.id} className="artefact-card">
-              <img
-                src={`http://localhost:5000/uploads/${a.image_url}`}
-                alt={a.title}
-                className="artefact-image universal-artefact-image"
-                style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px', background: '#f3f3f3' }}
-                onError={e => { e.target.onerror = null; e.target.src = '/default-artefact.png'; }}
+              <ArtefactImage 
+                imageUrl={a.image_url}
+                title={a.title}
+                dimensions={{ width: '100%', height: '250px' }}
               />
               <div className="artefact-content">
                 <h2>{a.title}</h2>

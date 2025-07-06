@@ -1,1 +1,4 @@
-<PLACEHOLDER_IMAGE_BINARY> 
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#f3f3f3"/>
+  <text x="150" y="100" font-family="Arial" font-size="16" fill="#666666" text-anchor="middle" dy=".3em">No Image</text>
+</svg>
