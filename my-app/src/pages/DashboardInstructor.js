@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getUser, logout } from '../utils/auth';
 import './DashboardInstructor.css'; // Import the vanilla CSS
+import dashboardBg from '../assets/WhatsApp Image 2025-06-18 at 22.59.20_8454668f.jpg';
 
 function DashboardInstructor() {
   const navigate = useNavigate();
@@ -103,205 +104,115 @@ function DashboardInstructor() {
   };
 
   return (
-    <div className="instructor-dashboard-container" style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Sidebar */}
-      <div className="instructor-sidebar" style={{
-        width: '250px',
-        background: 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)',
-        color: 'white',
-        padding: '20px 0',
-        display: 'flex',
-        flexDirection: 'column',
-        boxShadow: '2px 0 10px rgba(0,0,0,0.1)'
-      }}>
-        {/* Logo/Title */}
-        <div style={{ padding: '0 20px 30px 20px', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
-          <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold' }}>Instructor Panel</h2>
-        </div>
-        {/* Navigation Links */}
-        <div style={{ flex: 1, padding: '20px 0' }}>
-          <div style={{ padding: '0 20px' }}>
+    <div className="instructor-dashboard-bg">
+      <div className="instructor-dashboard-container" style={{ display: 'flex', minHeight: '100vh' }}>
+        {/* Sidebar */}
+        <div className="instructor-sidebar">
+          {/* Logo/Title */}
+          <div className="sidebar-logo-title">
+            <h2>Instructor Panel</h2>
+          </div>
+          {/* Navigation Links */}
+          <div className="sidebar-nav-links">
             <button
               onClick={() => navigate('/instructor/artefacts')}
               className="sidebar-nav-btn"
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                marginBottom: '8px',
-                background: hoveredBtn === 'artefacts' ? 'rgba(255,255,255,0.15)' : 'transparent',
-                border: 'none',
-                borderRadius: '8px',
-                color: 'white',
-                textAlign: 'left',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px'
-              }}
               onMouseEnter={() => setHoveredBtn('artefacts')}
               onMouseLeave={() => setHoveredBtn(null)}
             >
-              <span style={{ fontSize: '1.2rem' }}>🖼️</span>
+              <span>🖼️</span>
               View My Artefacts
             </button>
             <button
               onClick={() => document.getElementById('upload-artefact-section').scrollIntoView({ behavior: 'smooth' })}
               className="sidebar-nav-btn"
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                marginBottom: '8px',
-                background: hoveredBtn === 'upload' ? 'rgba(255,255,255,0.15)' : 'transparent',
-                border: 'none',
-                borderRadius: '8px',
-                color: 'white',
-                textAlign: 'left',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px'
-              }}
               onMouseEnter={() => setHoveredBtn('upload')}
               onMouseLeave={() => setHoveredBtn(null)}
             >
-              <span style={{ fontSize: '1.2rem' }}>⬆️</span>
+              <span>⬆️</span>
               Upload Artefact
             </button>
           </div>
-        </div>
-        {/* Profile Section at Bottom */}
-        <div style={{
-          padding: '20px',
-          borderTop: '1px solid rgba(255,255,255,0.2)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <button
-            onClick={() => navigate('/instructor/profile')}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '8px'
-            }}
-            title="Profile"
-          >
-            {user?.profile_photo_url ? (
-              <img
-                src={user.profile_photo_url}
-                alt="Profile"
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  border: '3px solid rgba(255,255,255,0.3)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={e => e.target.style.border = '3px solid rgba(255,255,255,0.6)'}
-                onMouseLeave={e => e.target.style.border = '3px solid rgba(255,255,255,0.3)'}
-              />
-            ) : (
-              <div style={{
-                width: 50,
-                height: 50,
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.2)',
-                color: 'white',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 'bold',
-                fontSize: 20,
-                border: '3px solid rgba(255,255,255,0.3)',
-                transition: 'all 0.3s ease'
-              }}
-                onMouseEnter={e => e.target.style.background = 'rgba(255,255,255,0.3)'}
-                onMouseLeave={e => e.target.style.background = 'rgba(255,255,255,0.2)'}
-              >
-                {user?.name?.charAt(0).toUpperCase() || 'U'}
-              </div>
-            )}
-            <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>
-              {user?.name || 'Instructor'}
-            </span>
-          </button>
-          <button
-            onClick={handleLogout}
-            style={{
-              background: 'rgba(255,255,255,0.1)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '6px',
-              color: 'white',
-              padding: '6px 12px',
-              cursor: 'pointer',
-              fontSize: '0.8rem',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={e => e.target.style.background = 'rgba(255,255,255,0.2)'}
-            onMouseLeave={e => e.target.style.background = 'rgba(255,255,255,0.1)'}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-      {/* Main Content */}
-      <div className="instructor-main-content" style={{ flex: 1, padding: '20px', background: '#f8f9fa', color: '#222' }}>
-        <ToastContainer />
-        <div className="dashboard-content-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
-          <div className="dashboard-card" id="upload-artefact-section" style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', border: '1px solid #ececec', padding: '2rem', minWidth: 320, maxWidth: 400, flex: '1 1 320px' }}>
-            <h2 className="section-title text-xl font-semibold mb-2" style={{ color: '#f97316', fontWeight: 700 }}>Upload Artefact</h2>
-            <form onSubmit={handleSubmit} className="upload-form space-y-4">
-              <input
-                type="text"
-                name="title"
-                placeholder="Title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-                className="block w-full p-2 border rounded"
-              />
-              <textarea
-                name="description"
-                placeholder="Description"
-                value={formData.description}
-                onChange={handleChange}
-                required
-                className="block w-full p-2 border rounded"
-              />
-              <input
-                type="number"
-                name="price"
-                placeholder="Suggested Price"
-                value={formData.price}
-                onChange={handleChange}
-                required
-                className="block w-full p-2 border rounded"
-              />
-              <input
-                type="file"
-                name="image"
-                onChange={handleChange}
-                required
-                className="block w-full p-2 border rounded"
-              />
-              <button
-                type="submit"
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-              >
-                Upload
-              </button>
-            </form>
+          {/* Profile and Logout at Bottom */}
+          <div className="sidebar-profile-section">
+            <button
+              onClick={() => navigate('/instructor/profile')}
+              className="sidebar-profile-avatar"
+              title="Profile"
+            >
+              {user?.profile_photo_url ? (
+                <img
+                  src={user.profile_photo_url}
+                  alt="Profile"
+                  className="sidebar-avatar-img"
+                />
+              ) : (
+                <div className="sidebar-avatar-placeholder">
+                  {user?.name?.charAt(0).toUpperCase() || 'I'}
+                </div>
+              )}
+              <span className="sidebar-profile-name">{user?.name || 'Instructor'}</span>
+            </button>
+            <button
+              onClick={handleLogout}
+              className="sidebar-logout-btn"
+            >
+              Logout
+            </button>
           </div>
-          <div className="dashboard-card" style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', border: '1px solid #ececec', padding: '2rem', minWidth: 320, maxWidth: 400, flex: '1 1 320px' }}>
+        </div>
+        {/* Main Content */}
+        <div className="instructor-dashboard-main-content">
+          <div className="instructor-dashboard-black-container">
+            <ToastContainer />
+            <div className="dashboard-content-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
+              <div className="dashboard-card" id="upload-artefact-section" style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', border: '1px solid #ececec', padding: '2rem', minWidth: 320, maxWidth: 400, flex: '1 1 320px' }}>
+                <h2 className="section-title text-xl font-semibold mb-2" style={{ color: '#f97316', fontWeight: 700 }}>Upload Artefact</h2>
+                <form onSubmit={handleSubmit} className="upload-form space-y-4">
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    required
+                    className="block w-full p-2 border rounded"
+                  />
+                  <textarea
+                    name="description"
+                    placeholder="Description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    required
+                    className="block w-full p-2 border rounded"
+                  />
+                  <input
+                    type="number"
+                    name="price"
+                    placeholder="Suggested Price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    required
+                    className="block w-full p-2 border rounded"
+                  />
+                  <input
+                    type="file"
+                    name="image"
+                    onChange={handleChange}
+                    required
+                    className="block w-full p-2 border rounded"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                  >
+                    Upload
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div className="instructor-dashboard-black-container">
             <h2 className="section-title text-xl font-semibold mb-2" style={{ color: '#f97316', fontWeight: 700 }}>Bids on Your Artefacts</h2>
             {loadingBids ? (
               <div className="loading">Loading bids...</div>

@@ -23,6 +23,7 @@ function Landing() {
       <Navbar />
       <main className="main-content">
         <div className= "head-content">
+          <img src={givingHand} alt="Giving hand logo" className="giving-hand-logo" style={{ marginBottom: '1rem', width: '90px', height: '90px' }} />
           <h1 className="main-heading">Hands2Heart</h1>
           <div className="readmore">
             <button className="readmore-button" onClick={() => { document.getElementById('about-us')?.scrollIntoView({ behavior: 'smooth' }); }}>Read More</button>

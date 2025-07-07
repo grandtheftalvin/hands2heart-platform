@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/auth';
 import ArtefactImage from '../components/ArtefactImage';
 import './DonorBidForm.css';
+import dashboardBg from '../assets/WhatsApp Image 2025-06-18 at 22.59.20_8454668f.jpg';
 
 function DonorBidForm() {
   const { id } = useParams();
@@ -97,89 +98,108 @@ function DonorBidForm() {
 
   if (!donorId) {
     return (
-      <div className="bid-form-container">
-        <h1>Please Log In</h1>
-        <p>You need to be logged in to place a bid.</p>
+      <div className="donor-bid-list-bg">
+        <nav className="donor-artefact-navbar-landing">
+          <button onClick={() => navigate('/dashboard/donor')} className="donor-navbar-btn">Back to Dashboard</button>
+          <span className="donor-navbar-title">My Bids</span>
+          <button onClick={() => navigate('/donor/artefacts')} className="donor-navbar-btn">Back to Artefacts</button>
+        </nav>
+        <div className="bid-form-container donor-dashboard-black-container">
+          <h1>Please Log In</h1>
+          <p>You need to be logged in to place a bid.</p>
+        </div>
       </div>
     );
   }
 
   if (artefactLoading) {
     return (
-      <div className="bid-form-container">
-        <h1>Loading Artefact...</h1>
-        <p>Please wait while we fetch the artefact details.</p>
+      <div className="donor-bid-list-bg">
+        <nav className="donor-artefact-navbar-landing">
+          <button onClick={() => navigate('/dashboard/donor')} className="donor-navbar-btn">Back to Dashboard</button>
+          <span className="donor-navbar-title">My Bids</span>
+          <button onClick={() => navigate('/donor/artefacts')} className="donor-navbar-btn">Back to Artefacts</button>
+        </nav>
+        <div className="bid-form-container donor-dashboard-black-container">
+          <h1>Loading Artefact...</h1>
+          <p>Please wait while we fetch the artefact details.</p>
+        </div>
       </div>
     );
   }
 
   if (!artefact) {
     return (
-      <div className="bid-form-container">
-        <h1>Artefact Not Found</h1>
-        <p>{message}</p>
-        <button onClick={() => navigate('/donor/artefacts')} className="back-btn">
-          Back to Artefacts
-        </button>
+      <div className="donor-bid-list-bg">
+        <nav className="donor-artefact-navbar-landing">
+          <button onClick={() => navigate('/dashboard/donor')} className="donor-navbar-btn">Back to Dashboard</button>
+          <span className="donor-navbar-title">My Bids</span>
+          <button onClick={() => navigate('/donor/artefacts')} className="donor-navbar-btn">Back to Artefacts</button>
+        </nav>
+        <div className="bid-form-container donor-dashboard-black-container">
+          <h1>Artefact Not Found</h1>
+          <p>{message}</p>
+          <button onClick={() => navigate('/donor/artefacts')} className="donor-navbar-btn">
+            Back to Artefacts
+          </button>
+        </div>
       </div>
     );
   }
 
-  return (
-    <div className="bid-form-container">
-      <button
-        onClick={() => navigate('/dashboard/donor')}
-        className="btn btn-primary"
-        style={{ margin: '1rem 0' }}
-      >
-        Back to Dashboard
-      </button>
-      <h1>Place Your Bid</h1>
-      
-      <div className="artefact-details">
-        <h2>{artefact.title}</h2>
-        <p>{artefact.description}</p>
-        <p className="price">Suggested Price: Kshs {artefact.price}</p>
-        {artefact.image_url && (
-          <ArtefactImage 
-            imageUrl={artefact.image_url}
-            title={artefact.title}
-            dimensions={{ width: '100%', maxWidth: '400px', height: '250px' }}
-            showContainer={false}
-          />
-        )}
-      </div>
+  // Debug: log artefact object
+  console.log('Artefact details:', artefact);
 
-      <form onSubmit={handleSubmit} className="bid-form">
-        <div className="form-group">
-          <label htmlFor="amount">Your Bid Amount (Kshs)</label>
-          <input
-            id="amount"
-            type="number"
-            placeholder="Enter your bid amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            min="1"
-            step="0.01"
-            required
-            disabled={loading}
-          />
+  return (
+    <div className="donor-bid-list-bg">
+      <nav className="donor-artefact-navbar-landing">
+        <button onClick={() => navigate('/dashboard/donor')} className="donor-navbar-btn">Back to Dashboard</button>
+        <span className="donor-navbar-title">My Bids</span>
+        <button onClick={() => navigate('/donor/artefacts')} className="donor-navbar-btn">Back to Artefacts</button>
+      </nav>
+      <div className="bid-form-container donor-dashboard-black-container">
+        <h1>Place Your Bid</h1>
+        <div className="artefact-details">
+          <h2>{artefact.title ? artefact.title : 'No title available'}</h2>
+          <p>{artefact.description ? artefact.description : 'No description available.'}</p>
+          <p className="price">Suggested Price: Kshs {artefact.price ? artefact.price : 'N/A'}</p>
+          {artefact.image_url && (
+            <ArtefactImage 
+              imageUrl={artefact.image_url}
+              title={artefact.title}
+              dimensions={{ width: '100%', maxWidth: '400px', height: '250px' }}
+              showContainer={false}
+            />
+          )}
         </div>
-        
-        <button type="submit" disabled={loading}>
-          {loading ? 'Submitting...' : 'Submit Bid'}
+        <form onSubmit={handleSubmit} className="bid-form">
+          <div className="form-group">
+            <label htmlFor="amount">Your Bid Amount (Kshs)</label>
+            <input
+              id="amount"
+              type="number"
+              placeholder="Enter your bid amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              min="1"
+              step="0.01"
+              required
+              disabled={loading}
+            />
+          </div>
+          <button type="submit" disabled={loading} className="place-bid-btn">
+            {loading ? 'Submitting...' : 'Submit Bid'}
+          </button>
+        </form>
+        {message && (
+          <div className={`message ${message.includes('successfully') ? 'success' : 'error'}`}>
+            {message}
+          </div>
+        )}
+        <button onClick={() => navigate('/donor/artefacts')} className="donor-navbar-btn">
+          Back to Artefacts
         </button>
-      </form>
-      
-      {message && (
-        <div className={`message ${message.includes('successfully') ? 'success' : 'error'}`}>
-          {message}
-        </div>
-      )}
-      
-      <button onClick={() => navigate('/donor/artefacts')} className="back-btn">
-        Back to Artefacts
-      </button>
+      </div>
     </div>
   );
 }

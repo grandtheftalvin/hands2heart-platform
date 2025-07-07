@@ -410,4 +410,22 @@
   .action-buttons {
     gap: 10px;
   }
+}
+
+.admin-users-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: url('../assets/WhatsApp Image 2025-06-18 at 22.59.20_8454668f.jpg') center/cover no-repeat;
+  position: relative;
+}
+.admin-users-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20,20,20,0.7);
+  z-index: 1;
+}
+.admin-users-bg > * {
+  position: relative;
+  z-index: 2;
 } 

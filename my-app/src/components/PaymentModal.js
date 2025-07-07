@@ -67,11 +67,33 @@ function PaymentModal({ bid, onClose, onSuccess }) {
     return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6, 9)} ${cleaned.slice(9, 12)}`;
   };
 
-  const handleCompleteTransaction = () => {
-    setStep(3);
-    setTimeout(() => {
-      onSuccess();
-    }, 3000);
+  const handleCompleteTransaction = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch(`http://localhost:5000/api/bids/${bid.id}/mark-paid`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          payment_date: new Date().toISOString(),
+          payment_method: 'M-Pesa',
+          phone_number: phoneNumber
+        })
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.message || 'Failed to mark payment as complete.');
+        setLoading(false);
+        return;
+      }
+      setStep(3);
+      setTimeout(() => {
+        onSuccess();
+      }, 3000);
+    } catch (err) {
+      setError('Network error. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (

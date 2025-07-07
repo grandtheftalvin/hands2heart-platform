@@ -138,3 +138,90 @@ body {
     height: 180px !important;
   }
 }
+
+.instructor-artefact-list-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: url('../assets/WhatsApp Image 2025-06-18 at 22.59.20_8454668f.jpg') center/cover no-repeat;
+  position: relative;
+}
+.instructor-artefact-list-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20,20,20,0.7);
+  z-index: 1;
+}
+.artefact-list-container {
+  position: relative;
+  z-index: 2;
+}
+
+.instructor-dashboard-black-container {
+  background: rgba(0,0,0,0.85);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 700px;
+  min-width: 340px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.instructor-dashboard-black-container:hover {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #fff;
+}
+.instructor-dashboard-black-container h2,
+.instructor-dashboard-black-container p,
+.instructor-dashboard-black-container div,
+.instructor-dashboard-black-container span,
+.instructor-dashboard-black-container strong {
+  color: #fff !important;
+}
+.instructor-dashboard-black-container img,
+.instructor-dashboard-black-container .artefact-image-container {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+.instructor-dashboard-black-container > div {
+  width: 100%;
+  text-align: left;
+}
+
+.back-dashboard-btn {
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+  margin-bottom: 2rem;
+}
+.back-dashboard-btn:hover {
+  background: #f97316;
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 900px) {
+  .instructor-dashboard-black-container {
+    flex-direction: column;
+    align-items: center;
+    max-width: 98vw;
+    min-width: unset;
+    padding: 1rem;
+  }
+}

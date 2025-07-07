@@ -79,26 +79,14 @@ function Login() {
             <p>Don't have an account? <span onClick={() => navigate('/signup')} style={{ color: '#f97316', cursor: 'pointer' }}>Sign Up</span></p>
         </div>
       </form>
-      {/*<div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
-        <button
-          type="button"
-          onClick={() => navigate('/signup')}
-          style={{ background: 'white', color: '#f97316', border: '1px solid #f97316', borderRadius: '6px', padding: '8px 20px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}
-          onMouseOver={e => e.target.style.background='#f3f3f3'}
-          onMouseOut={e => e.target.style.background='white'}
-        >
-          Sign Up
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          style={{ background: 'white', color: '#f97316', border: '1px solid #f97316', borderRadius: '6px', padding: '8px 20px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}
-          onMouseOver={e => e.target.style.background='#f3f3f3'}
-          onMouseOut={e => e.target.style.background='white'}
-        >
-          Home
-        </button>
-      </div> */}
+      <button
+        type="button"
+        className="home-btn"
+        onClick={() => navigate('/')}
+        style={{ marginTop: '1.5rem', background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', color: '#fff', border: 'none', borderRadius: '6px', padding: '10px 28px', fontWeight: 700, fontSize: '1.1rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(249,115,22,0.08)', transition: 'all 0.2s' }}
+      >
+        Home
+      </button>
       
     </div>
     </div>

@@ -1,6 +1,6 @@
 .notifications-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  /* background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%); */
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -115,7 +115,7 @@
 }
 
 .notification-card {
-  background: white;
+  /* background: white; */
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -206,4 +206,48 @@
   .notification-actions {
     justify-content: flex-start;
   }
+}
+
+.donor-bid-list-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: url('../assets/WhatsApp Image 2025-06-18 at 22.59.20_8454668f.jpg') center/cover no-repeat;
+  position: relative;
+}
+.donor-bid-list-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20,20,20,0.7);
+  z-index: 1;
+}
+.donor-bid-list-bg > * {
+  position: relative;
+  z-index: 2;
+}
+
+.donor-dashboard-black-container {
+  background: rgba(0,0,0,0.85) !important;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 700px;
+  min-width: 340px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+  color: #fff !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.donor-dashboard-black-container h1,
+.donor-dashboard-black-container h2,
+.donor-dashboard-black-container h3,
+.donor-dashboard-black-container p,
+.donor-dashboard-black-container div,
+.donor-dashboard-black-container span,
+.donor-dashboard-black-container strong {
+  color: #fff !important;
 } 

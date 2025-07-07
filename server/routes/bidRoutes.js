@@ -139,6 +139,21 @@ router.patch('/:id/reject', async (req, res) => {
   res.json({ message: 'Bid rejected' });
 });
 
+// PATCH /api/bids/:id/mark-paid
+router.patch('/:id/mark-paid', async (req, res) => {
+  const { id } = req.params;
+  const { payment_date, payment_method, phone_number } = req.body;
+
+  const { error } = await supabase
+    .from('bids')
+    .update({ paid: true, payment_date, payment_method, phone_number })
+    .eq('id', id);
+
+  if (error) return res.status(500).json({ message: 'Failed to mark bid as paid' });
+
+  res.json({ message: 'Bid marked as paid' });
+});
+
 // GET /api/bids/stats
 router.get('/stats', async (req, res) => {
   const { instructor_id, artefact_id } = req.query;
